@@ -63,6 +63,7 @@ const AddUsulanStack = () => {
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar style="light" />
       <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="MainStack" component={MainStack} />
       </AuthStack.Navigator>
