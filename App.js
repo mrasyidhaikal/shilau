@@ -23,7 +23,7 @@ const AppTabs = () => {
         inactiveTintColor: '#B2B5BF',
         style: {
           backgroundColor: '#fff',
-          paddingBottom: 10,
+          paddingBottom: 5,
           borderTopWidth: 0,
         },
       }}
