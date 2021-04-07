@@ -54,7 +54,7 @@ const MainStack = () => {
 
 const AddUsulanStack = () => {
   return (
-    <Usulan.Navigator>
+    <Usulan.Navigator screenOptions={{ headerShown: false }}>
       <Usulan.Screen name="usulanPerusahaan" component={usulanPerusahaan} />
     </Usulan.Navigator>
   )
@@ -63,7 +63,7 @@ const AddUsulanStack = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <AuthStack.Navigator>
+      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="MainStack" component={MainStack} />
       </AuthStack.Navigator>
     </NavigationContainer>
