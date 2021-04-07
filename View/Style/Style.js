@@ -11,7 +11,7 @@ export const dark = '#002635'
 export const grey = '#666872'
 export const ijo = '#2DAF7E'
 export const ungu = '#9078F3'
-export const oren = '#FD7557'D7557'
+export const oren = '#FD7557'
 
 const styles = StyleSheet.create({
   container: {
