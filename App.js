@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import berandaScreen from './View/Beranda/Beranda'
 import usulanPerusahaan from './View/AddUsulan/AddUsulanPerusahaan'
+import MainUsulan from './View/AddUsulan/MainUsulan';
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
@@ -55,6 +56,7 @@ const MainStack = () => {
 const AddUsulanStack = () => {
   return (
     <Usulan.Navigator screenOptions={{ headerShown: false }}>
+      <Usulan.Screen name="MainUsulan" component={MainUsulan} />
       <Usulan.Screen name="usulanPerusahaan" component={usulanPerusahaan} />
     </Usulan.Navigator>
   )
@@ -63,7 +65,7 @@ const AddUsulanStack = () => {
 export default function App() {
   return (
     <NavigationContainer>
-    <StatusBar style="light" />
+      <StatusBar style="light" />
       <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="MainStack" component={MainStack} />
       </AuthStack.Navigator>

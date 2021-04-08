@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: putih,
     fontWeight: 'bold',
-    fontFamily: 'roboto',
+    fontFamily: 'Roboto',
   },
   textBold: {
     fontSize: 20,
     color: putih,
     fontWeight: 'bold',
-    fontFamily: 'roboto',
+    fontFamily: 'Roboto',
   },
   textNormalWhite: {
     fontSize: 16,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   buttonGhost: {
     borderRadius: 10,
-    borderColor: greyText,
+    borderColor: grey,
     backgroundColor: biruGelap,
     borderWidth: 2,
     width: WIDTH - 55,
