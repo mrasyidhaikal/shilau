@@ -22,7 +22,7 @@ const AppTabs = () => {
 
         inactiveTintColor: '#B2B5BF',
         style: {
-          backgroundColor: '#fff',
+          backgroundColor: "#fff",
           paddingBottom: 5,
           borderTopWidth: 0,
         },
@@ -63,7 +63,7 @@ const AddUsulanStack = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <StatusBar style="light" />
+    <StatusBar style="light" />
       <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="MainStack" component={MainStack} />
       </AuthStack.Navigator>
