@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import berandaScreen from './View/Beranda/Beranda'
 import usulanPerusahaan from './View/AddUsulan/AddUsulanPerusahaan'
+import { biruGelap, dark, grey } from './View/Style/Style'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
@@ -22,9 +23,10 @@ const AppTabs = () => {
 
         inactiveTintColor: '#B2B5BF',
         style: {
-          backgroundColor: '#fff',
-          paddingBottom: 10,
-          borderTopWidth: 0,
+          backgroundColor: dark,
+          paddingBottom: 5,
+          borderTopWidth: 0.5,
+          borderBottomColor: grey,
         },
       }}
     >
@@ -54,7 +56,7 @@ const MainStack = () => {
 
 const AddUsulanStack = () => {
   return (
-    <Usulan.Navigator>
+    <Usulan.Navigator screenOptions={{ headerShown: false }}>
       <Usulan.Screen name="usulanPerusahaan" component={usulanPerusahaan} />
     </Usulan.Navigator>
   )
@@ -63,7 +65,8 @@ const AddUsulanStack = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <AuthStack.Navigator>
+      <StatusBar style="light" backgroundColor={biruGelap} />
+      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="MainStack" component={MainStack} />
       </AuthStack.Navigator>
     </NavigationContainer>

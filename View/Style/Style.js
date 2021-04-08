@@ -4,31 +4,32 @@ import { StyleSheet, Dimensions } from 'react-native'
 const { width: WIDTH } = Dimensions.get('window')
 const windowHeight = Dimensions.get('window').height
 
-const biruMuda = '#189AB4'
-const putih = '#fff'
-const biruGelap = '#05445E'
-const dark = '#002635'
-const grey = '#666872'
-const ijo = '#2DAF7E'
-const ungu = '#9078F3'
-const oren = '#FD7557'
+export const biruMuda = '#189AB4'
+export const putih = '#fff'
+export const biruGelap = '#05445E'
+export const dark = '#002635'
+export const grey = '#666872'
+export const ijo = '#2DAF7E'
+export const ungu = '#9078F3'
+export const oren = '#FD7557'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#05445E',
   },
+  wrapper: {
+    paddingHorizontal: 20,
+  },
   headerText: {
     fontSize: 25,
     color: putih,
     fontWeight: 'bold',
-    fontFamily: 'roboto',
   },
   textBold: {
     fontSize: 20,
     color: putih,
     fontWeight: 'bold',
-    fontFamily: 'roboto',
   },
   textNormalWhite: {
     fontSize: 16,
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
   },
   buttonGhost: {
     borderRadius: 10,
-    borderColor: greyText,
+    borderColor: grey,
     backgroundColor: biruGelap,
     borderWidth: 2,
     width: WIDTH - 55,
