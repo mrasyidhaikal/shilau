@@ -23,7 +23,7 @@ const AppTabs = () => {
         inactiveTintColor: '#B2B5BF',
         style: {
           backgroundColor: '#fff',
-          paddingBottom: 10,
+          paddingBottom: 5,
           borderTopWidth: 0,
         },
       }}
@@ -54,7 +54,7 @@ const MainStack = () => {
 
 const AddUsulanStack = () => {
   return (
-    <Usulan.Navigator>
+    <Usulan.Navigator screenOptions={{ headerShown: false }}>
       <Usulan.Screen name="usulanPerusahaan" component={usulanPerusahaan} />
     </Usulan.Navigator>
   )
@@ -63,7 +63,8 @@ const AddUsulanStack = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <AuthStack.Navigator>
+    <StatusBar style="light" />
+      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="MainStack" component={MainStack} />
       </AuthStack.Navigator>
     </NavigationContainer>
