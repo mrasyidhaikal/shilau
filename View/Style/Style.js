@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#05445E',
   },
+  wrapper: {
+    paddingHorizontal: 20,
+  },
   headerText: {
     fontSize: 25,
     color: putih,
