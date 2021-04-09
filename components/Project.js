@@ -1,25 +1,14 @@
 import React from 'react'
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Button,
-  Dimensions,
-  TouchableOpacity,
-  TextInput,
-  StatusBar,
-  ScrollView,
-  RefreshControl,
-  ImageBackground,
-} from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Style, { putih, biruMuda, ijo, dark, grey } from '../View/Style/Style'
 import ProjectStatus from './ProjectStatus'
 function Project({ data: { id, title, status, date } }) {
   return (
-    <View style={styles.project_item}>
+    <TouchableOpacity
+      onPress={() => console.log({ id, title, status, date })}
+      style={styles.project_item}
+    >
       <View style={styles.project_item_top}>
         <Icon
           style={{ fontSize: 24, color: biruMuda }}
@@ -37,7 +26,7 @@ function Project({ data: { id, title, status, date } }) {
         </Text>
       </View>
       <View style={styles.project_item_bottom}></View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
