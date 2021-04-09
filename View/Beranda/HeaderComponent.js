@@ -39,7 +39,7 @@ function HeaderComponent() {
       <View style={[Style.wrapper, BerandaStyle.titleSection]}>
         <Text style={Style.textBold}>Status Proyek</Text>
         <TouchableOpacity style={BerandaStyle.btnAdd}>
-          <Text style={{ color: putih, marginRight: 5 }}>Add</Text>
+          <Text style={{ color: putih, marginRight: 5 }}>Tambah Proyek</Text>
           <Icon
             style={{ fontSize: 24, color: putih }}
             name="add-circle-outline"
