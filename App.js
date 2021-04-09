@@ -47,7 +47,9 @@ const AppTabs = () => {
 
 const MainStack = () => {
   return (
-    <Main.Navigator screenOptions={{ headerShown: false }}>
+    <Main.Navigator
+      screenOptions={{ headerShown: false, animationEnabled: false }}
+    >
       <Main.Screen name="AppTabs" component={AppTabs} />
       <Main.Screen name="AddUsulanStack" component={AddUsulanStack} />
     </Main.Navigator>
