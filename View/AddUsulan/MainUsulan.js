@@ -11,14 +11,17 @@ export default class MainUsulan extends React.Component {
             <SafeAreaView style={Style.container}>
                 <View style={Style.NavBackContainer}>
                     <TouchableOpacity style={MainStyle.BackButton} onPress={() => navigation.goBack()}>
-                        <Icon name="arrow-back" size={30} color='#fff' />
+                        <Icon name="arrow-back" size={32} color='#fff' />
                     </TouchableOpacity>
                 </View>
                 <Text style={[Style.headerText, MainStyle.AdditionalheaderText]}>
                     Pilihan Form Pengisian Pengajuan
                 </Text>
                 <View style={[Style.ContainerViewBiasa, MainStyle.ViewFormPengajuan]}>
-                    <TouchableOpacity style={[Style.buttonUngu, MainStyle.AdditionalButton]}>
+                    <TouchableOpacity
+                        style={[Style.buttonUngu, MainStyle.AdditionalButton]}
+                        onPress={() => { navigation.navigate('AddUsulanPribadi') }}
+                    >
                         <Text style={[Style.textNormalWhite]}>
                             Usulan Pribadi
                         </Text>

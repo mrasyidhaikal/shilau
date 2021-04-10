@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { putih } from './Style';
 
-const { height } = Dimensions.get('window');
+export const { height } = Dimensions.get('window');
 
 export default StyleSheet.create({
     AdditionalheaderText: {

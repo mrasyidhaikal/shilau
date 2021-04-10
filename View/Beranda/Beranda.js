@@ -35,14 +35,14 @@ class Beranda extends React.Component {
         <SafeAreaView>
           <ScrollView>
             <TouchableOpacity
-              style={Style.buttonGhost}
+              style={[Style.buttonGhost, { margin: 25, marginTop: 40 }]}
               onPress={() =>
                 navigation.navigate('AddUsulanStack', {
-                  screen: 'usulanPerusahaan',
+                  screen: 'MainUsulan',
                 })
               }
             >
-              <Text style={Style.textBold}></Text>
+              <Text style={Style.textBold}>Test</Text>
             </TouchableOpacity>
           </ScrollView>
         </SafeAreaView>
