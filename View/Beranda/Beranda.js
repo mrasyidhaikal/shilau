@@ -1,23 +1,20 @@
 import * as React from 'react'
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Button,
-  Dimensions,
-  TouchableOpacity,
-  TextInput,
-  StatusBar,
-  ScrollView,
-  RefreshControl,
-} from 'react-native'
+import { SafeAreaView, View, FlatList } from 'react-native'
 
-import Icon from 'react-native-vector-icons/Ionicons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
-import Style from './../Style/Style'
+import Style, { ijo, oren, putih } from './../Style/Style'
+import Project from '../../components/Project'
+import DATA from './dataDummy'
+import HeaderComponent from './HeaderComponent'
+
+function renderProject({ item }) {
+  return (
+    <View style={Style.wrapper}>
+      <Project data={item} />
+    </View>
+  )
+}
 
 class Beranda extends React.Component {
   constructor() {
@@ -29,22 +26,17 @@ class Beranda extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props
     return (
       <View style={Style.container}>
         <SafeAreaView>
-          <ScrollView>
-            <TouchableOpacity
-              style={[Style.buttonGhost, { margin: 25, marginTop: 40 }]}
-              onPress={() =>
-                navigation.navigate('AddUsulanStack', {
-                  screen: 'MainUsulan',
-                })
-              }
-            >
-              <Text style={Style.textBold}>Test</Text>
-            </TouchableOpacity>
-          </ScrollView>
+          <FlatList
+            data={DATA}
+            ListHeaderComponent={HeaderComponent}
+            renderItem={renderProject}
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+          />
         </SafeAreaView>
       </View>
     )

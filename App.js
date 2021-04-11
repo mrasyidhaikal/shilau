@@ -10,6 +10,7 @@ import berandaScreen from './View/Beranda/Beranda'
 import usulanPerusahaan from './View/AddUsulan/AddUsulanPerusahaan'
 import MainUsulan from './View/AddUsulan/MainUsulan';
 import AddUsulanPribadi from './View/AddUsulan/AddUsulanPribadi';
+import { biruGelap, dark, grey } from './View/Style/Style'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
@@ -23,9 +24,10 @@ const AppTabs = () => {
         activeTintColor: '#FF3737',
         inactiveTintColor: '#B2B5BF',
         style: {
-          backgroundColor: "#fff",
+          backgroundColor: dark,
           paddingBottom: 5,
-          borderTopWidth: 0,
+          borderTopWidth: 0.5,
+          borderBottomColor: grey,
         },
       }}
     >
@@ -46,7 +48,9 @@ const AppTabs = () => {
 
 const MainStack = () => {
   return (
-    <Main.Navigator screenOptions={{ headerShown: false }}>
+    <Main.Navigator
+      screenOptions={{ headerShown: false, animationEnabled: false }}
+    >
       <Main.Screen name="AppTabs" component={AppTabs} />
       <Main.Screen name="AddUsulanStack" component={AddUsulanStack} />
     </Main.Navigator>
@@ -66,7 +70,7 @@ const AddUsulanStack = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <StatusBar style="light" />
+      <StatusBar style="light" backgroundColor={biruGelap} />
       <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         <AuthStack.Screen name="MainStack" component={MainStack} />
       </AuthStack.Navigator>
