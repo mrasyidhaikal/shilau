@@ -28,6 +28,9 @@ class AddUsulanPerusahaan extends React.Component {
         }
     }
     handlePress = (e) => {
+        if (this.state.display >= 3) {
+            return
+        }
         this.setState({ display: this.state.display + 1 });
     }
     handleTitle = (display) => {
@@ -40,7 +43,7 @@ class AddUsulanPerusahaan extends React.Component {
         const { navigation } = this.props
         const { display } = this.state;
         return (
-            <SafeAreaView style={Styles.container}>
+            <SafeAreaView style={[Styles.container, Styles.wrapper]}>
                 <View style={Styles.NavBackContainer}>
                     <TouchableOpacity
                         style={MainUsulanStyle.BackButton}

@@ -38,7 +38,9 @@ function HeaderComponent() {
 
       <View style={[Style.wrapper, BerandaStyle.titleSection]}>
         <Text style={Style.textBold}>Status Proyek</Text>
-        <TouchableOpacity style={BerandaStyle.btnAdd}>
+        <TouchableOpacity style={BerandaStyle.btnAdd} onPress={
+          () => navigation.navigate('AddUsulanStack', { screen: 'MainUsulan' })
+        }>
           <Text style={{ color: putih, marginRight: 5 }}>Tambah Proyek</Text>
           <Icon
             style={{ fontSize: 24, color: putih }}

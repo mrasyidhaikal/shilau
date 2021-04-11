@@ -17,6 +17,9 @@ export default class AddUsulanPribadi extends React.Component {
         display: 1,
     }
     handlePress = () => {
+        if (this.state.display >= 2) {
+            return
+        }
         this.setState({ display: this.state.display + 1 })
     }
     handleTitle = (display) => {
