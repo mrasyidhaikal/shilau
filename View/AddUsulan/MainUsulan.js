@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 export default class MainUsulan extends React.Component {
     render() {
         const { navigation } = this.props;
+        // console.log(navigation.)
         return (
             <SafeAreaView style={Style.container}>
                 <View style={Style.NavBackContainer}>
@@ -33,7 +34,10 @@ export default class MainUsulan extends React.Component {
                         </Text>
                         <View style={MainStyle.Line} />
                     </View>
-                    <TouchableOpacity style={[Style.buttonIjo, MainStyle.AdditionalButton]}>
+                    <TouchableOpacity
+                        style={[Style.buttonIjo, MainStyle.AdditionalButton]}
+                        onPress={() => { navigation.navigate('usulanPerusahaan') }}
+                    >
                         <Text style={[Style.textNormalWhite]}>
                             Usulan Perusahaan
                         </Text>

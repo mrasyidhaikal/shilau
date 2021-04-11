@@ -1,12 +1,10 @@
 import { StyleSheet } from 'react-native';
-import {
-    height
-} from './MainUsulan.style';
 
 export default StyleSheet.create({
     AdditionalInputStyle: {
         marginBottom: 20,
         marginTop: 20,
+        paddingLeft: 20,
     },
     FormTextInputView: {
         justifyContent: 'center',
@@ -18,10 +16,10 @@ export default StyleSheet.create({
         justifyContent: 'center',
     },
     AdditionalButton: {
-        marginTop: 15,
+        alignSelf: 'center',
+        position: 'relative'
     },
     AdditionalInputOfTextArea: {
         height: 100,
-
     }
 })
