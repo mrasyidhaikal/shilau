@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native'
-const { width: WIDTH } = Dimensions.get('window')
-const windowHeight = Dimensions.get('window').height
+
+export const WIDTH = Dimensions.get('window').width
+export const windowHeight = Dimensions.get('window').height
 
 export const biruMuda = '#189AB4'
 export const putih = '#fff'
@@ -35,6 +36,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: putih,
   },
+  textNormalGrey: {
+    fontSize: 16,
+    color: grey,
+  },
   buttonUngu: {
     backgroundColor: ungu,
     borderRadius: 10,
@@ -65,9 +70,9 @@ const styles = StyleSheet.create({
   },
   buttonGhost: {
     borderRadius: 10,
-    borderColor: grey,
+    borderColor: putih,
     backgroundColor: biruGelap,
-    borderWidth: 2,
+    borderWidth: 1,
     width: WIDTH - 55,
     height: 50,
     justifyContent: 'center',
@@ -81,6 +86,15 @@ const styles = StyleSheet.create({
     backgroundColor: dark,
     color: putih,
   },
+  inputLogin: {
+    width: WIDTH - 55,
+    height: 45,
+    borderRadius: 10,
+    fontSize: 16,
+    paddingLeft: 55,
+    backgroundColor: dark,
+    color: putih,
+  },
   NavBackContainer: {
     marginLeft: 20,
     marginTop: windowHeight / 20,
@@ -88,6 +102,23 @@ const styles = StyleSheet.create({
   ContainerViewBiasa: {
     marginHorizontal: 25,
     marginBottom: 25,
+  },
+
+  inputContainer: {
+    marginTop: 10,
+  },
+  inputIcon: {
+    position: 'absolute',
+    borderColor: '#666872',
+    top: 8,
+    left: 17,
+    paddingRight: 5,
+    borderRightWidth: 1,
+  },
+  btnEye: {
+    position: 'absolute',
+    top: 8,
+    right: 20,
   },
 })
 

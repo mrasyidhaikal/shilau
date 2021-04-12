@@ -8,14 +8,17 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import berandaScreen from './View/Beranda/Beranda'
 import usulanPerusahaan from './View/AddUsulan/AddUsulanPerusahaan'
-import MainUsulan from './View/AddUsulan/MainUsulan';
-import AddUsulanPribadi from './View/AddUsulan/AddUsulanPribadi';
+import MainUsulan from './View/AddUsulan/MainUsulan'
+import AddUsulanPribadi from './View/AddUsulan/AddUsulanPribadi'
+import RegisterScreen from './View/Login&Register/RegisterScreen'
+import LoginScreen from './View/Login&Register/LoginScreen'
 import { biruGelap, dark, grey } from './View/Style/Style'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
 const Main = createStackNavigator()
 const Usulan = createStackNavigator()
+const RegisterStack = createStackNavigator()
 
 const AppTabs = () => {
   return (
@@ -53,6 +56,7 @@ const MainStack = () => {
     >
       <Main.Screen name="AppTabs" component={AppTabs} />
       <Main.Screen name="AddUsulanStack" component={AddUsulanStack} />
+      <Main.Screen name="LoginNRegister" component={RegisterAndLoginStack} />
     </Main.Navigator>
   )
 }
@@ -64,6 +68,15 @@ const AddUsulanStack = () => {
       <Usulan.Screen name="AddUsulanPribadi" component={AddUsulanPribadi} />
       <Usulan.Screen name="usulanPerusahaan" component={usulanPerusahaan} />
     </Usulan.Navigator>
+  )
+}
+
+const RegisterAndLoginStack = () => {
+  return (
+    <RegisterStack.Navigator screenOptions={{ headerShown: false }}>
+      <RegisterStack.Screen name="LoginScreen" component={LoginScreen} />
+      <RegisterStack.Screen name="RegisterScreen" component={RegisterScreen} />
+    </RegisterStack.Navigator>
   )
 }
 
