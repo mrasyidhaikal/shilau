@@ -6,7 +6,6 @@ import {
     TouchableOpacity,
     View,
     ScrollView,
-    Pic
 } from 'react-native';
 import Styles from '../Style/Style';
 import MainUsulanStyle from '../Style/MainUsulan.style';
@@ -18,7 +17,8 @@ export default class AddUsulanPribadi extends React.Component {
     state = {
         index: 0,
         display: 1,
-        selectOption: '',
+        selectOption: '', // Dropdown Picker
+        selectFile: '',
     }
     handlePress = () => {
         if (this.state.display >= 2) {
@@ -104,7 +104,7 @@ export default class AddUsulanPribadi extends React.Component {
                                 <Picker
                                     style={[
                                         Styles.input,
-                                        { position: 'absolute', color: `${this.checkIndex}` }
+                                        { position: 'absolute', color: `#fff` }
                                     ]}
                                     selectedValue={selectOption}
                                     onValueChange={(value, index) => {
@@ -142,11 +142,15 @@ export default class AddUsulanPribadi extends React.Component {
                                 placeholderTextColor="#666872"
                                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
                             />
-                            <TextInput // File Input Tidak ada Di React
-                                placeholder="File Lampiran"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle, { marginBottom: 5 }]}
-                            />
+                            <View style={[Styles.input, AddUsulan.AdditionalInputStyle, { marginBottom: 5 }]}>
+                                <TouchableOpacity
+                                // onPress={this.handleFile}
+                                // style={[Styles.buttonIjo]}
+                                >
+                                    <Text style={[Styles.textNormalWhite]}>Pilih File</Text>
+                                </TouchableOpacity>
+                            </View>
+
                             <Text style={[Styles.textNormalWhite, { alignSelf: 'flex-start' }]}>
                                 NB: Maks 5 MB, FIleType: ZIP|RAR
                             </Text>
