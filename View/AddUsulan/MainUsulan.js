@@ -8,7 +8,7 @@ export default class MainUsulan extends React.Component {
     render() {
         const { navigation } = this.props;
         return (
-            <SafeAreaView style={[Style.container, Style.wrapper]}>
+            <SafeAreaView style={[Style.container]}>
                 <View style={Style.NavBackContainer}>
                     <TouchableOpacity style={MainStyle.BackButton} onPress={() => navigation.goBack()}>
                         <Icon name="arrow-back" size={32} color='#fff' />

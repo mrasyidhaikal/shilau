@@ -5,16 +5,20 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    ScrollView
+    ScrollView,
+    Pic
 } from 'react-native';
 import Styles from '../Style/Style';
 import MainUsulanStyle from '../Style/MainUsulan.style';
 import AddUsulan from '../Style/AddUsulan.style';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Picker } from '@react-native-picker/picker';
 
 export default class AddUsulanPribadi extends React.Component {
     state = {
+        index: 0,
         display: 1,
+        selectOption: '',
     }
     handlePress = () => {
         if (this.state.display >= 2) {
@@ -26,12 +30,16 @@ export default class AddUsulanPribadi extends React.Component {
         if (display === 1) return 'A. Informasi Diri';
         if (display === 2) return 'B. Informasi Proyek';
     }
+    checkIndex = () => {
+        if (this.state.index === 0) return '#666872';
+        return '#fff';
+    }
     render() {
         const layer = 2;
         const { navigation } = this.props;
-        const { display } = this.state;
+        const { display, selectOption } = this.state;
         return (
-            <SafeAreaView style={Styles.container}>
+            <SafeAreaView style={[Styles.container]}>
                 <View style={Styles.NavBackContainer}>
                     <TouchableOpacity
                         style={MainUsulanStyle.BackButton}
@@ -92,11 +100,26 @@ export default class AddUsulanPribadi extends React.Component {
                                 placeholder="Judul Proyek"
                                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
                             />
-                            <TextInput // Blm Terbuat Dropdown
-                                placeholder="Tipe Proyek"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
-                            />
+                            <View style={[Styles.input, AddUsulan.AdditionalInputStyle]}>
+                                <Picker
+                                    style={[
+                                        Styles.input,
+                                        { position: 'absolute', color: `${this.checkIndex}` }
+                                    ]}
+                                    selectedValue={selectOption}
+                                    onValueChange={(value, index) => {
+                                        this.setState({ selectOption: value, index: index })
+                                    }}
+                                    dropdownIconColor="fff"
+                                    mode='dropdown'
+                                >
+                                    <Picker.Item label="Tipe Kluster" enabled={false} />
+                                    <Picker.Item label="Web Application" value="Web Application" />
+                                    <Picker.Item label="Mobile Application" value="Mobile Application" />
+                                    <Picker.Item label="Big Data" value="Big Data" />
+                                </Picker>
+                            </View>
+
                             <TextInput
                                 placeholder="Jelaskan Secara Singkat Deskripsi Proyek yang dilkakukan"
                                 multiline
