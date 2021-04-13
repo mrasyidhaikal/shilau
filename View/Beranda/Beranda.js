@@ -24,7 +24,6 @@ class Beranda extends React.Component {
       refreshing: false,
     }
   }
-
   render() {
     return (
       <View style={Style.container}>
