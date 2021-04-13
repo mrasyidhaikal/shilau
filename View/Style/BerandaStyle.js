@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { StatusBar, StyleSheet } from 'react-native'
-import { oren } from './Style'
+import { biruMuda, oren, ijo } from './Style'
 
 const BerandaStyle = StyleSheet.create({
   topBar: {
-    paddingVertical: StatusBar.currentHeight + 5,
+    paddingVertical: StatusBar.currentHeight + 10 || 15,
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'row',
@@ -19,6 +19,24 @@ const BerandaStyle = StyleSheet.create({
     marginBottom: 20,
   },
   btnAdd: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: biruMuda,
+    borderRadius: 10,
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+  },
+  btnCheckOut: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: ijo,
+    borderRadius: 10,
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+  },
+  btnHapus: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
