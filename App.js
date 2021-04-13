@@ -9,11 +9,13 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import berandaScreen from './View/Beranda/Beranda'
 import usulanPerusahaan from './View/AddUsulan/AddUsulanPerusahaan'
 import { biruGelap, dark, grey } from './View/Style/Style'
+import DetailProyek from './View/DetailProyek/DetailProyek'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
 const Main = createStackNavigator()
 const Usulan = createStackNavigator()
+const ProyekStack = createStackNavigator()
 
 const AppTabs = () => {
   return (
@@ -52,6 +54,7 @@ const MainStack = () => {
     >
       <Main.Screen name="AppTabs" component={AppTabs} />
       <Main.Screen name="AddUsulanStack" component={AddUsulanStack} />
+      <Main.Screen name="DetailProyek" component={HandleProyekStack} />
     </Main.Navigator>
   )
 }
@@ -61,6 +64,14 @@ const AddUsulanStack = () => {
     <Usulan.Navigator screenOptions={{ headerShown: false }}>
       <Usulan.Screen name="usulanPerusahaan" component={usulanPerusahaan} />
     </Usulan.Navigator>
+  )
+}
+
+const HandleProyekStack = () => {
+  return (
+    <ProyekStack.Navigator screenOptions={{ headerShown: false }}>
+      <ProyekStack.Screen name="DetailProyek" component={DetailProyek} />
+    </ProyekStack.Navigator>
   )
 }
 
