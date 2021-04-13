@@ -1,49 +1,45 @@
-import * as React from 'react'
+import React from 'react';
 import {
     SafeAreaView,
-    StyleSheet,
     Text,
-    View,
-    Image,
-    Button,
-    TouchableOpacity,
     TextInput,
+    TouchableOpacity,
+    View,
     ScrollView,
-    RefreshControl,
-} from 'react-native'
+} from 'react-native';
+import Styles from '../Style/Style';
+import MainUsulanStyle from '../Style/MainUsulan.style';
+import AddUsulan from '../Style/AddUsulan.style';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Picker } from '@react-native-picker/picker';
 
-import Icon from 'react-native-vector-icons/Ionicons'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import Styles from './../Style/Style'
-import MainUsulanStyle from '../Style/MainUsulan.style'
-import AddUsulan from '../Style/AddUsulan.style'
-
-class AddUsulanPerusahaan extends React.Component {
-    constructor() {
-        super()
-
-        this.state = {
-            refreshing: false,
-            display: 1
-        }
+export default class AddUsulanPribadi extends React.Component {
+    state = {
+        index: 0,
+        display: 1,
+        selectOption: '', // Dropdown Picker
+        selectFile: '',
     }
-    handlePress = (e) => {
-        if (this.state.display >= 3) {
+    handlePress = () => {
+        if (this.state.display >= 2) {
             return
         }
-        this.setState({ display: this.state.display + 1 });
+        this.setState({ display: this.state.display + 1 })
     }
     handleTitle = (display) => {
         if (display === 1) return 'A. Informasi Diri';
-        if (display === 2) return 'B. Informasi Perusahaan';
-        if (display === 3) return 'C. Informasi Proyek'
+        if (display === 2) return 'B. Informasi Proyek';
+    }
+    checkIndex = () => {
+        if (this.state.index === 0) return '#666872';
+        return '#fff';
     }
     render() {
-        const layer = 3;
-        const { navigation } = this.props
-        const { display } = this.state;
+        const layer = 2;
+        const { navigation } = this.props;
+        const { display, selectOption } = this.state;
         return (
-            <SafeAreaView style={[Styles.container, Styles.wrapper]}>
+            <SafeAreaView style={[Styles.container]}>
                 <View style={Styles.NavBackContainer}>
                     <TouchableOpacity
                         style={MainUsulanStyle.BackButton}
@@ -56,14 +52,14 @@ class AddUsulanPerusahaan extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <Text style={[Styles.headerText, MainUsulanStyle.AdditionalheaderText]}>
-                    Usulan Perusahaan
-        		</Text>
+                    Usulan Pribadi
+                </Text>
+                {
+                    // Form A Info Diri
+                }
                 <ScrollView>
-                    {
-                        // Layer 1 Informasi Diri
-                    }
                     <View style={[
-                        Styles.ContainerViewBiasa
+                        Styles.ContainerViewBiasa,
                     ]}>
                         <Text style={[Styles.textNormalWhite]}>
                             {
@@ -86,7 +82,6 @@ class AddUsulanPerusahaan extends React.Component {
                             />
                             <TextInput
                                 placeholder="Email"
-                                keyboardType='email-address'
                                 placeholderTextColor="#666872"
                                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
                             />
@@ -99,47 +94,32 @@ class AddUsulanPerusahaan extends React.Component {
                         <View style={[
                             AddUsulan.FormTextInputView,
                             { display: (display === 2) ? 'flex' : 'none' }
-                        ]}>
-                            <TextInput
-                                placeholder="Nama Perusahaan"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
-                            />
-                            <TextInput
-                                placeholder="Alamat"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
-                            />
-                            <TextInput
-                                placeholder="Isi Industri atau Sektor"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
-                            />
-                            <TextInput
-                                placeholder="Jumlah Karyawan"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
-                            />
-                            <TextInput
-                                placeholder="Website"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
-                            />
-                        </View>
-                        <View style={[
-                            AddUsulan.FormTextInputView,
-                            { display: (display === 3) ? 'flex' : 'none' }
                         ]} >
                             <TextInput
                                 placeholderTextColor="#666872"
                                 placeholder="Judul Proyek"
                                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
                             />
-                            <TextInput // Blm Terbuat Dropdown
-                                placeholder="Tipe Proyek"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
-                            />
+                            <View style={[Styles.input, AddUsulan.AdditionalInputStyle]}>
+                                <Picker
+                                    style={[
+                                        Styles.input,
+                                        { position: 'absolute', color: `#fff` }
+                                    ]}
+                                    selectedValue={selectOption}
+                                    onValueChange={(value, index) => {
+                                        this.setState({ selectOption: value, index: index })
+                                    }}
+                                    dropdownIconColor="fff"
+                                    mode='dropdown'
+                                >
+                                    <Picker.Item label="Tipe Kluster" enabled={false} />
+                                    <Picker.Item label="Web Application" value="Web Application" />
+                                    <Picker.Item label="Mobile Application" value="Mobile Application" />
+                                    <Picker.Item label="Big Data" value="Big Data" />
+                                </Picker>
+                            </View>
+
                             <TextInput
                                 placeholder="Jelaskan Secara Singkat Deskripsi Proyek yang dilkakukan"
                                 multiline
@@ -151,26 +131,29 @@ class AddUsulanPerusahaan extends React.Component {
                             <View>
                                 <Text style={Styles.textNormalWhite}>
                                     Pernah komunikasi Dengan Pihak Polibatam ?
-                                    </Text>
+                                </Text>
                                 {
                                     //CheckBox Row // Checkbox Belum ada di React
                                 }
                             </View>
                             <TextInput editable={false} style={[Styles.input, AddUsulan.AdditionalInputStyle]} />
-
                             <TextInput
                                 placeholder="Luaran"
                                 placeholderTextColor="#666872"
                                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
                             />
-                            <TextInput // File Input Tidak ada Di React
-                                placeholder="File Lampiran"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle, { marginBottom: 5 }]}
-                            />
+                            <View style={[Styles.input, AddUsulan.AdditionalInputStyle, { marginBottom: 5 }]}>
+                                <TouchableOpacity
+                                // onPress={this.handleFile}
+                                // style={[Styles.buttonIjo]}
+                                >
+                                    <Text style={[Styles.textNormalWhite]}>Pilih File</Text>
+                                </TouchableOpacity>
+                            </View>
+
                             <Text style={[Styles.textNormalWhite, { alignSelf: 'flex-start' }]}>
                                 NB: Maks 5 MB, FIleType: ZIP|RAR
-                                </Text>
+                            </Text>
                         </View>
                     </View>
                 </ScrollView>
@@ -189,5 +172,3 @@ class AddUsulanPerusahaan extends React.Component {
         )
     }
 }
-
-export default AddUsulanPerusahaan
