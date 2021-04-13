@@ -121,7 +121,7 @@ export default class AddUsulanPribadi extends React.Component {
                             </View>
 
                             <TextInput
-                                placeholder="Jelaskan Secara Singkat Deskripsi Proyek yang dilkakukan"
+                                placeholder="Jelaskan Secara Singkat Deskripsi Proyek yang dilakukan"
                                 multiline
                                 numberOfLines={4}
                                 placeholderTextColor="#666872"
@@ -143,10 +143,7 @@ export default class AddUsulanPribadi extends React.Component {
                                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
                             />
                             <View style={[Styles.input, AddUsulan.AdditionalInputStyle, { marginBottom: 5 }]}>
-                                <TouchableOpacity
-                                // onPress={this.handleFile}
-                                // style={[Styles.buttonIjo]}
-                                >
+                                <TouchableOpacity>
                                     <Text style={[Styles.textNormalWhite]}>Pilih File</Text>
                                 </TouchableOpacity>
                             </View>

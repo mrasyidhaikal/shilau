@@ -1,17 +1,14 @@
 import * as React from 'react'
 import {
     SafeAreaView,
-    StyleSheet,
     Text,
     View,
-    Image,
-    Button,
     TouchableOpacity,
     TextInput,
     ScrollView,
-    RefreshControl,
 } from 'react-native'
 
+import { Picker } from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/Ionicons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Styles from './../Style/Style'
@@ -135,11 +132,25 @@ class AddUsulanPerusahaan extends React.Component {
                                 placeholder="Judul Proyek"
                                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
                             />
-                            <TextInput // Blm Terbuat Dropdown
-                                placeholder="Tipe Proyek"
-                                placeholderTextColor="#666872"
-                                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
-                            />
+                            <View style={[Styles.input, AddUsulan.AdditionalInputStyle]}>
+                                <Picker
+                                    style={[
+                                        Styles.input,
+                                        { position: 'absolute', color: `#fff` }
+                                    ]}
+                                    selectedValue={selectOption}
+                                    onValueChange={(value, index) => {
+                                        this.setState({ selectOption: value, index: index })
+                                    }}
+                                    dropdownIconColor="fff"
+                                    mode='dropdown'
+                                >
+                                    <Picker.Item label="Tipe Kluster" enabled={false} />
+                                    <Picker.Item label="Web Application" value="Web Application" />
+                                    <Picker.Item label="Mobile Application" value="Mobile Application" />
+                                    <Picker.Item label="Big Data" value="Big Data" />
+                                </Picker>
+                            </View>
                             <TextInput
                                 placeholder="Jelaskan Secara Singkat Deskripsi Proyek yang dilkakukan"
                                 multiline

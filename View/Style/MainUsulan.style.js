@@ -11,7 +11,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         flexBasis: 'auto'
     },
-    Line: {
+    Line: { 
         margin: 10,
         borderLeftWidth: 100,
         borderColor: putih,
