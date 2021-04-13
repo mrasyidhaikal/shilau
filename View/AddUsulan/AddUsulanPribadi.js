@@ -172,7 +172,6 @@ export default class AddUsulanPribadi extends React.Component {
               >
                 <TouchableOpacity
                   onPress={this.handlePickDocument}
-                  // style={[Styles.buttonIjo]}
                 >
                   <Text style={[Styles.textNormalWhite]}>Pilih File</Text>
                 </TouchableOpacity>
