@@ -1,12 +1,14 @@
+import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Style, { putih, biruMuda, ijo, dark, grey } from '../View/Style/Style'
 import ProjectStatus from './ProjectStatus'
 function Project({ data: { id, title, status, date } }) {
+  const navigation = useNavigation()
   return (
     <TouchableOpacity
-      onPress={() => console.log({ id, title, status, date })}
+      onPress={() => navigation.navigate('DetailProyek')}
       style={styles.project_item}
     >
       <View style={styles.project_item_top}>
