@@ -12,13 +12,15 @@ import MainUsulan from './View/AddUsulan/MainUsulan'
 import AddUsulanPribadi from './View/AddUsulan/AddUsulanPribadi'
 import RegisterScreen from './View/Login&Register/RegisterScreen'
 import LoginScreen from './View/Login&Register/LoginScreen'
-import { biruGelap, dark, grey } from './View/Style/Style'
+import DataUser from './View/Profile/DataUser'
+import { biruGelap, dark, grey, biruMuda } from './View/Style/Style'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
 const Main = createStackNavigator()
 const Usulan = createStackNavigator()
 const RegisterStack = createStackNavigator()
+const Profile = createStackNavigator()
 
 const AppTabs = () => {
   return (
@@ -26,11 +28,10 @@ const AppTabs = () => {
       tabBarOptions={{
         activeTintColor: '#FF3737',
         inactiveTintColor: '#B2B5BF',
+        showLabel: false,
         style: {
           backgroundColor: dark,
           paddingBottom: 5,
-          borderTopWidth: 0.5,
-          borderBottomColor: grey,
         },
       }}
     >
@@ -38,10 +39,8 @@ const AppTabs = () => {
         name="Home"
         component={berandaScreen}
         options={{
-          tabBarLabel: 'Home',
-
           tabBarIcon: ({ color }) => (
-            <Icon name="ios-home-outline" color={color} size={26} />
+            <Icon name="add-circle" color={biruMuda} size={46} />
           ),
         }}
       />
@@ -57,6 +56,7 @@ const MainStack = () => {
       <Main.Screen name="AppTabs" component={AppTabs} />
       <Main.Screen name="AddUsulanStack" component={AddUsulanStack} />
       <Main.Screen name="LoginNRegister" component={RegisterAndLoginStack} />
+      <Main.Screen name="ProfileStack" component={ProfileStack} />
     </Main.Navigator>
   )
 }
@@ -77,6 +77,14 @@ const RegisterAndLoginStack = () => {
       <RegisterStack.Screen name="LoginScreen" component={LoginScreen} />
       <RegisterStack.Screen name="RegisterScreen" component={RegisterScreen} />
     </RegisterStack.Navigator>
+  )
+}
+
+const ProfileStack = () => {
+  return (
+    <Profile.Navigator screenOptions={{ headerShown: false }}>
+      <Profile.Screen name="DataUser" component={DataUser} />
+    </Profile.Navigator>
   )
 }
 

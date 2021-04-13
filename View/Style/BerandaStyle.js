@@ -4,7 +4,7 @@ import { oren } from './Style'
 
 const BerandaStyle = StyleSheet.create({
   topBar: {
-    paddingVertical: StatusBar.currentHeight + 5 || 0,
+    paddingVertical: StatusBar.currentHeight + 20 || 0,
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'row',
