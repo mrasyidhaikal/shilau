@@ -17,12 +17,18 @@ function HeaderComponent() {
     <>
       <View style={[BerandaStyle.topBar, Style.wrapper]}>
         <View style={BerandaStyle.profile}>
-          <View style={BerandaStyle.profile_img}>
-            <Image
-              style={{ width: '100%', height: '100%' }}
-              source={require('../../assets/person-female.jpg')}
-            />
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ProfileStack', { screen: 'DataUser' })
+            }
+          >
+            <View style={BerandaStyle.profile_img}>
+              <Image
+                style={{ width: '100%', height: '100%' }}
+                source={require('../../assets/person-female.jpg')}
+              />
+            </View>
+          </TouchableOpacity>
           <View>
             <Text style={Style.textNormalWhite}>Selamat Datang</Text>
             <Text style={Style.textBold}>Clara Laudia</Text>
@@ -38,7 +44,12 @@ function HeaderComponent() {
 
       <View style={[Style.wrapper, BerandaStyle.titleSection]}>
         <Text style={Style.textBold}>Status Proyek</Text>
-        <TouchableOpacity style={BerandaStyle.btnAdd}>
+        <TouchableOpacity
+          style={BerandaStyle.btnAdd}
+          onPress={() =>
+            navigation.navigate('AddUsulanStack', { screen: 'MainUsulan' })
+          }
+        >
           <Text style={{ color: putih, marginRight: 5 }}>Tambah Proyek</Text>
           <Icon
             style={{ fontSize: 24, color: putih }}
