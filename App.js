@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -8,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import berandaScreen from './View/Beranda/Beranda'
 import usulanPerusahaan from './View/AddUsulan/AddUsulanPerusahaan'
+import DetailProyek from './View/DetailProyek/DetailProyek'
 import MainUsulan from './View/AddUsulan/MainUsulan'
 import AddUsulanPribadi from './View/AddUsulan/AddUsulanPribadi'
 import RegisterScreen from './View/Login&Register/RegisterScreen'
@@ -19,6 +19,7 @@ const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
 const Main = createStackNavigator()
 const Usulan = createStackNavigator()
+const ProyekStack = createStackNavigator()
 const RegisterStack = createStackNavigator()
 const Profile = createStackNavigator()
 
@@ -55,6 +56,7 @@ const MainStack = () => {
     >
       <Main.Screen name="AppTabs" component={AppTabs} />
       <Main.Screen name="AddUsulanStack" component={AddUsulanStack} />
+      <Main.Screen name="DetailProyek" component={HandleProyekStack} />
       <Main.Screen name="LoginNRegister" component={RegisterAndLoginStack} />
       <Main.Screen name="ProfileStack" component={ProfileStack} />
     </Main.Navigator>
@@ -68,6 +70,14 @@ const AddUsulanStack = () => {
       <Usulan.Screen name="AddUsulanPribadi" component={AddUsulanPribadi} />
       <Usulan.Screen name="usulanPerusahaan" component={usulanPerusahaan} />
     </Usulan.Navigator>
+  )
+}
+
+const HandleProyekStack = () => {
+  return (
+    <ProyekStack.Navigator screenOptions={{ headerShown: false }}>
+      <ProyekStack.Screen name="DetailProyek" component={DetailProyek} />
+    </ProyekStack.Navigator>
   )
 }
 
@@ -98,12 +108,3 @@ export default function App() {
     </NavigationContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
