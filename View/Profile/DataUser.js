@@ -104,7 +104,10 @@ class DataUser extends React.Component {
             </View>
 
             <View style={Style.ContainerViewBiasa}>
-              <TouchableOpacity style={[Style.buttonOren]}>
+              <TouchableOpacity
+                onPress={() => console.log('tesst logout')}
+                style={[Style.buttonOren]}
+              >
                 <View
                   style={{
                     flexDirection: 'row',

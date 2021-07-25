@@ -13,6 +13,7 @@ import BerandaStyle from './../Style/BerandaStyle'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
 import Icon from 'react-native-vector-icons/Ionicons'
+import useAuthStore from '../store/useAuthStore'
 
 import Style, { windowHeight, WIDTH, grey } from './../Style/Style'
 
@@ -33,6 +34,11 @@ class LoginScreen extends React.Component {
     } else {
       this.setState({ showPass: true, press: false })
     }
+  }
+
+  handleLogin = () => {
+    const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
+    setIsLoggedIn(true)
   }
 
   render() {
@@ -115,7 +121,10 @@ class LoginScreen extends React.Component {
                 </TouchableOpacity>
               </View>
               <View style={Style.inputContainer}>
-                <TouchableOpacity style={Style.buttonBiru}>
+                <TouchableOpacity
+                  onPress={handleLogin}
+                  style={Style.buttonBiru}
+                >
                   <Text
                     style={{ fontSize: 16, color: '#fff', alignSelf: 'center' }}
                   >

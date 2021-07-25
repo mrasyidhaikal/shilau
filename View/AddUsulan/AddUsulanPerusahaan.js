@@ -26,56 +26,64 @@ class AddUsulanPerusahaan extends React.Component {
 
     this.state = {
       refreshing: false,
-      display: 1
+      display: 1,
+      selectOption: '', // Dropdown Picker
+      selectFile: '',
     }
   }
   handlePress = (e) => {
     if (this.state.display >= 3) {
       return
     }
-    this.setState({ display: this.state.display + 1 });
+    this.setState({ display: this.state.display + 1 })
   }
   handleTitle = (display) => {
-    if (display === 1) return 'A. Informasi Diri';
-    if (display === 2) return 'B. Informasi Perusahaan';
+    if (display === 1) return 'A. Informasi Diri'
+    if (display === 2) return 'B. Informasi Perusahaan'
     if (display === 3) return 'C. Informasi Proyek'
   }
+  handlePickDocument = async () => {
+    let document = await DocumentPicker.getDocumentAsync()
+    if (!document.cancelled) {
+      //this.setState({})
+    }
+  }
+
   render() {
-    const layer = 3;
+    const layer = 3
     const { navigation } = this.props
-    const { display } = this.state;
+    const { display, selectOption } = this.state
     return (
-      <SafeAreaView style={[Styles.container, Styles.wrapper]}>
+      <SafeAreaView style={[Styles.container]}>
         <View style={Styles.NavBackContainer}>
           <TouchableOpacity
             style={MainUsulanStyle.BackButton}
-            onPress={
-              () => {
-                (display === 1) ? navigation.goBack() : this.setState({ display: display - 1 })
-              }}
+            onPress={() => {
+              display === 1
+                ? navigation.goBack()
+                : this.setState({ display: display - 1 })
+            }}
           >
-            <Icon name="arrow-back" size={32} color='#fff' />
+            <Icon name="arrow-back" size={32} color="#fff" />
           </TouchableOpacity>
         </View>
         <Text style={[Styles.headerText, MainUsulanStyle.AdditionalheaderText]}>
           Usulan Perusahaan
-        		</Text>
+        </Text>
         <ScrollView>
           {
             // Layer 1 Informasi Diri
           }
-          <View style={[
-            Styles.ContainerViewBiasa
-          ]}>
+          <View style={[Styles.ContainerViewBiasa]}>
             <Text style={[Styles.textNormalWhite]}>
-              {
-                this.handleTitle(display)
-              }
+              {this.handleTitle(display)}
             </Text>
-            <View style={[
-              AddUsulan.FormTextInputView,
-              { display: (display === 1) ? 'flex' : 'none' }
-            ]}>
+            <View
+              style={[
+                AddUsulan.FormTextInputView,
+                { display: display === 1 ? 'flex' : 'none' },
+              ]}
+            >
               <TextInput
                 placeholder="Nama Pengusul"
                 placeholderTextColor="#666872"
@@ -88,7 +96,7 @@ class AddUsulanPerusahaan extends React.Component {
               />
               <TextInput
                 placeholder="Email"
-                keyboardType='email-address'
+                keyboardType="email-address"
                 placeholderTextColor="#666872"
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
@@ -98,10 +106,12 @@ class AddUsulanPerusahaan extends React.Component {
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
             </View>
-            <View style={[
-              AddUsulan.FormTextInputView,
-              { display: (display === 2) ? 'flex' : 'none' }
-            ]}>
+            <View
+              style={[
+                AddUsulan.FormTextInputView,
+                { display: display === 2 ? 'flex' : 'none' },
+              ]}
+            >
               <TextInput
                 placeholder="Nama Perusahaan"
                 placeholderTextColor="#666872"
@@ -128,10 +138,12 @@ class AddUsulanPerusahaan extends React.Component {
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
             </View>
-            <View style={[
-              AddUsulan.FormTextInputView,
-              { display: (display === 3) ? 'flex' : 'none' }
-            ]} >
+            <View
+              style={[
+                AddUsulan.FormTextInputView,
+                { display: display === 3 ? 'flex' : 'none' },
+              ]}
+            >
               <TextInput
                 placeholderTextColor="#666872"
                 placeholder="Judul Proyek"
@@ -168,17 +180,24 @@ class AddUsulanPerusahaan extends React.Component {
                 numberOfLines={4}
                 placeholderTextColor="#666872"
                 maxLength={40}
-                style={[Styles.input, AddUsulan.AdditionalInputStyle, AddUsulan.AdditionalInputOfTextArea]}
+                style={[
+                  Styles.input,
+                  AddUsulan.AdditionalInputStyle,
+                  AddUsulan.AdditionalInputOfTextArea,
+                ]}
               />
               <View>
                 <Text style={Styles.textNormalWhite}>
                   Pernah komunikasi Dengan Pihak Polibatam ?
-                                    </Text>
+                </Text>
                 {
                   //CheckBox Row // Checkbox Belum ada di React
                 }
               </View>
-              <TextInput editable={false} style={[Styles.input, AddUsulan.AdditionalInputStyle]} />
+              <TextInput
+                editable={false}
+                style={[Styles.input, AddUsulan.AdditionalInputStyle]}
+              />
 
               <TextInput
                 placeholder="Luaran"
@@ -192,27 +211,28 @@ class AddUsulanPerusahaan extends React.Component {
                   { marginBottom: 5 },
                 ]}
               >
-                <TouchableOpacity
-                  onPress={this.handlePickDocument}
-                >
+                <TouchableOpacity onPress={this.handlePickDocument}>
                   <Text style={[Styles.textNormalWhite]}>Pilih File</Text>
                 </TouchableOpacity>
               </View>
-              <Text style={[Styles.textNormalWhite, { alignSelf: 'flex-start' }]}>
+              <Text
+                style={[Styles.textNormalWhite, { alignSelf: 'flex-start' }]}
+              >
                 NB: Maks 5 MB, FIleType: ZIP|RAR
-                                </Text>
+              </Text>
             </View>
           </View>
         </ScrollView>
-        <TouchableOpacity style={[
-          Styles.buttonBiru,
-          MainUsulanStyle.AdditionalButton,
-          AddUsulan.AdditionalButton
-        ]} onPress={this.handlePress}>
+        <TouchableOpacity
+          style={[
+            Styles.buttonBiru,
+            MainUsulanStyle.AdditionalButton,
+            AddUsulan.AdditionalButton,
+          ]}
+          onPress={this.handlePress}
+        >
           <Text style={Styles.textNormalWhite}>
-            {
-              (layer === display ? 'Save' : 'Next')
-            }
+            {layer === display ? 'Save' : 'Next'}
           </Text>
         </TouchableOpacity>
       </SafeAreaView>

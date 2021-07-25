@@ -57,7 +57,7 @@ const MainStack = () => {
       <Main.Screen name="AppTabs" component={AppTabs} />
       <Main.Screen name="AddUsulanStack" component={AddUsulanStack} />
       <Main.Screen name="DetailProyek" component={HandleProyekStack} />
-      <Main.Screen name="LoginNRegister" component={RegisterAndLoginStack} />
+      {/* <Main.Screen name="LoginNRegister" component={RegisterAndLoginStack} /> */}
       <Main.Screen name="ProfileStack" component={ProfileStack} />
     </Main.Navigator>
   )
@@ -102,7 +102,14 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="light" backgroundColor={biruGelap} />
-      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+      <AuthStack.Navigator
+        initialRouteName="LoginNRegister"
+        screenOptions={{ headerShown: false }}
+      >
+        <AuthStack.Screen
+          name="LoginNRegister"
+          component={RegisterAndLoginStack}
+        />
         <AuthStack.Screen name="MainStack" component={MainStack} />
       </AuthStack.Navigator>
     </NavigationContainer>
