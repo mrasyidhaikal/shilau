@@ -15,8 +15,7 @@
     "@react-navigation/bottom-tabs": "^5.11.9",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
-    "expo": "^42.0.0",
-    "expo-document-picker": "~8.4.1",
+    "expo": "^40.0.1",
     "expo-status-bar": "~1.0.3",
     "moment": "^2.29.1",
     "react": "16.13.1",
@@ -31,8 +30,7 @@
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2",
     "react-native-web": "~0.13.12",
-    "zustand": "^3.5.7",
-    "firebase": "7.9.0"
+    "expo-document-picker": "~8.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
