@@ -14,6 +14,7 @@ import RegisterScreen from './View/Login&Register/RegisterScreen'
 import LoginScreen from './View/Login&Register/LoginScreen'
 import DataUser from './View/Profile/DataUser'
 import { biruGelap, dark, grey, biruMuda } from './View/Style/Style'
+import useAuthStore from './View/store/useAuthStore'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
@@ -99,18 +100,20 @@ const ProfileStack = () => {
 }
 
 export default function App() {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+  console.log(isLoggedIn)
   return (
     <NavigationContainer>
       <StatusBar style="light" backgroundColor={biruGelap} />
-      <AuthStack.Navigator
-        initialRouteName="LoginNRegister"
-        screenOptions={{ headerShown: false }}
-      >
-        <AuthStack.Screen
-          name="LoginNRegister"
-          component={RegisterAndLoginStack}
-        />
-        <AuthStack.Screen name="MainStack" component={MainStack} />
+      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+        {isLoggedIn ? (
+          <AuthStack.Screen name="MainStack" component={MainStack} />
+        ) : (
+          <AuthStack.Screen
+            name="LoginNRegister"
+            component={RegisterAndLoginStack}
+          />
+        )}
       </AuthStack.Navigator>
     </NavigationContainer>
   )

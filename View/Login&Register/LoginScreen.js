@@ -122,7 +122,7 @@ class LoginScreen extends React.Component {
               </View>
               <View style={Style.inputContainer}>
                 <TouchableOpacity
-                  onPress={handleLogin}
+                  onPress={this.handleLogin}
                   style={Style.buttonBiru}
                 >
                   <Text

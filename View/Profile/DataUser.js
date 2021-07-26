@@ -17,6 +17,7 @@ import moment from 'moment'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import Style, { windowHeight, WIDTH, grey, biruMuda } from './../Style/Style'
+import useAuthStore from '../store/useAuthStore'
 
 class DataUser extends React.Component {
   constructor() {
@@ -25,6 +26,11 @@ class DataUser extends React.Component {
     this.state = {
       refreshing: false,
     }
+  }
+
+  handleLogout = () => {
+    const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
+    setIsLoggedIn(false)
   }
 
   render() {
@@ -105,7 +111,7 @@ class DataUser extends React.Component {
 
             <View style={Style.ContainerViewBiasa}>
               <TouchableOpacity
-                onPress={() => console.log('tesst logout')}
+                onPress={this.handleLogout}
                 style={[Style.buttonOren]}
               >
                 <View
