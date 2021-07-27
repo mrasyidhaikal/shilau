@@ -7,6 +7,8 @@ import Style, { ijo, oren, putih } from './../Style/Style'
 import Project from '../../components/Project'
 import DATA from './dataDummy'
 import HeaderComponent from './HeaderComponent'
+import useGlobalStore from '../store/useGlobalStore'
+import { auth } from '../../utils/firebase'
 
 function renderProject({ item }) {
   return (
@@ -24,6 +26,13 @@ class Beranda extends React.Component {
       refreshing: false,
     }
   }
+
+  componentDidMount() {
+    const setUser = useGlobalStore.getState().setUser
+    const user = auth.currentUser
+    setUser(user.displayName, user.email, user.uid)
+  }
+
   render() {
     return (
       <View style={Style.container}>
