@@ -42,7 +42,7 @@ const AppTabs = () => {
         component={berandaScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon name="add-circle" color={biruMuda} size={46} />
+            <Icon name="ios-home" color={biruMuda} size={30} />
           ),
         }}
       />
@@ -58,7 +58,6 @@ const MainStack = () => {
       <Main.Screen name="AppTabs" component={AppTabs} />
       <Main.Screen name="AddUsulanStack" component={AddUsulanStack} />
       <Main.Screen name="DetailProyek" component={HandleProyekStack} />
-      {/* <Main.Screen name="LoginNRegister" component={RegisterAndLoginStack} /> */}
       <Main.Screen name="ProfileStack" component={ProfileStack} />
     </Main.Navigator>
   )
@@ -101,7 +100,7 @@ const ProfileStack = () => {
 
 export default function App() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
-  console.log(isLoggedIn)
+  console.log('Berhasil Login: ', isLoggedIn)
   return (
     <NavigationContainer>
       <StatusBar style="light" backgroundColor={biruGelap} />
