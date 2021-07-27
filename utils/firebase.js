@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
-import 'firebase/firestore';
 import 'firebase/auth';
+import { Alert } from 'react-native';
 
 var firebaseConfig = {
   apiKey: 'AIzaSyAOVLgR-odhTjm7LVM2CEjISWYgIPZ2Ofs',
@@ -14,5 +14,15 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)  
 export const auth = firebase.auth();
+
+export function sendEmailVerfication(){
+  const user = auth.currentUser;
+
+  user.sendEmailVerification().then(() => {
+    Alert.alert('Email', 'Cek Email Anda Untuk Verifikasi');
+  }).catch(err => {
+    console.log(err);
+  })
+}
 
 export default firebase;

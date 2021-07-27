@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import Style, { windowHeight, WIDTH, grey, biruMuda } from './../Style/Style'
 import useAuthStore from '../store/useAuthStore'
-import { auth } from '../../utils/firebase'
+import { auth, sendEmailVerfication } from '../../utils/firebase'
 
 class DataUser extends React.Component {
   constructor() {
@@ -46,6 +46,32 @@ class DataUser extends React.Component {
       .catch((err) => {
         Alert.alert('Opps!, Terjadi Kesalahan', err.message)
       })
+  }
+
+  handleEmailVerification = () => {
+    const user = auth.currentUser;
+    console.log(user.emailVerified);
+    if(!user.emailVerified){
+      user.sendEmailVerification().then(() => {
+        Alert.alert('Email', 'Email Verifiaction Sent');
+      }).catch(err => {
+        console.log(err);
+      })
+      
+      return
+    }
+    Alert.alert('Email', 'Email Anda Sudah Pernah Verfikasi');
+    return;
+  }
+
+  handleGantiPassword = () => {
+    const user = auth.currentUser;
+    console.log(user.emailVerified);
+    auth.sendPasswordResetEmail(user.email).then(() => {
+      Alert.alert('Password Reset', 'Password Reset Ada Di Email Anda');
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   render() {
@@ -102,8 +128,8 @@ class DataUser extends React.Component {
                       size={26}
                       color={biruMuda}
                     ></Icon>
-                    <Text style={[Style.textNormalWhite, { marginLeft: 10 }]}>
-                      Verivikasi Email
+                    <Text style={[Style.textNormalWhite, { marginLeft: 10 }]} onPress={this.handleEmailVerification}>
+                      Verifikasi Email
                     </Text>
                   </View>
                 </View>
@@ -116,7 +142,7 @@ class DataUser extends React.Component {
                       size={26}
                       color={biruMuda}
                     ></Icon>
-                    <Text style={[Style.textNormalWhite, { marginLeft: 10 }]}>
+                    <Text style={[Style.textNormalWhite, { marginLeft: 10 }]} onPress={this.handleGantiPassword}>
                       Ganti Password
                     </Text>
                   </View>

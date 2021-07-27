@@ -16,8 +16,8 @@ function HeaderComponent() {
   const navigation = useNavigation()
 
   React.useEffect(() => {
-    const user = auth.currentUser
-    console.log(user.displayName)
+    const user = auth.currentUser;
+    console.log(user)
   }, [])
 
   return (
