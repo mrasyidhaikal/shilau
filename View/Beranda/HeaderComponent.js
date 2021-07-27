@@ -17,7 +17,7 @@ function HeaderComponent() {
 
   React.useEffect(() => {
     const user = auth.currentUser
-    console.log(user)
+    console.log(user.displayName)
   }, [])
 
   return (

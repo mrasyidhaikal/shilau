@@ -41,13 +41,6 @@ class LoginScreen extends React.Component {
     }
   }
 
-  // handleOnChange = (name, value) => {
-  //   this.setState({
-  //     ...this.state,
-  //     [name]: value,
-  //   })
-  // }
-
   handleLogin = () => {
     const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
     auth
