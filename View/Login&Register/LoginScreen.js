@@ -15,6 +15,7 @@ import moment from 'moment'
 import Icon from 'react-native-vector-icons/Ionicons'
 import useAuthStore from '../store/useAuthStore'
 
+
 import Style, { windowHeight, WIDTH, grey } from './../Style/Style'
 
 class LoginScreen extends React.Component {
@@ -38,6 +39,7 @@ class LoginScreen extends React.Component {
 
   handleLogin = () => {
     const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
+
     setIsLoggedIn(true)
   }
 

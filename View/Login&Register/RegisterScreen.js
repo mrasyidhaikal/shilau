@@ -15,6 +15,7 @@ import moment from 'moment'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Style, { windowHeight, WIDTH, grey } from './../Style/Style'
 import MainUsulanStyle from './../Style/MainUsulan.style'
+import {auth} from '../../utils/firebase';
 
 class RegisterScreen extends React.Component {
   constructor() {
@@ -33,6 +34,10 @@ class RegisterScreen extends React.Component {
     } else {
       this.setState({ showPass: true, press: false })
     }
+  }
+
+  handleRegister = () => {
+    
   }
 
   render() {
