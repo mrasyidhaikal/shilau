@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth';
+import 'firebase/firestore';
 import { Alert } from 'react-native';
 
 var firebaseConfig = {
@@ -14,15 +15,46 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)  
 export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+const users = firestore.collection('users');
 
-export function sendEmailVerfication(){
-  const user = auth.currentUser;
+/**
+ * 
+ * @param {Number} uid Id User
+ */
+export const getDataBaseId= (/*Number*/uid) => {
+  if(typeof uid !== 'number'){
+    return;
+  }
 
-  user.sendEmailVerification().then(() => {
-    Alert.alert('Email', 'Cek Email Anda Untuk Verifikasi');
-  }).catch(err => {
+  const dataRef = users.doc(uid);
+
+  const getRef = await dataRef.get(); // Snapshot
+}
+/**
+ * 
+ * @param {Number} uid Id User
+ * @param {Object} other Object Data Yang Ingin Disimpan
+ * 
+ * Set Data Perusahaan Dengan Id
+ */
+export const setDataPerusahaanWithId = (/*Number*/uid, /*Object*/other) => {
+  const setData = users.doc(uid);
+
+  setData.collection('perusahaan').set({
+    
+  }).then().catch(err => {
     console.log(err);
   })
+}
+
+/**
+ * 
+ * @param {Number} uid Id User
+ * @param {Object} other Data Yang Ingin disimpan
+ */
+export const setDataPribadiWithId = (/*Number*/uid, /*Object*/other) => {
+
 }
 
 export default firebase;
