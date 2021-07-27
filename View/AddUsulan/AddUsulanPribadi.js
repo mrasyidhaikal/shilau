@@ -13,16 +13,49 @@ import AddUsulan from '../Style/AddUsulan.style'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Picker } from '@react-native-picker/picker'
 import * as DocumentPicker from 'expo-document-picker'
+import firebase, { users } from '../../utils/firebase'
+import useGlobalStore from '../store/useGlobalStore'
+import { Buffer } from 'buffer'
+import 'firebase/storage';
+// const { StorageAccessFramework } = DocumentPicker;
 
 export default class AddUsulanPribadi extends React.Component {
   state = {
     index: 0,
     display: 1,
-    selectOption: '', // Dropdown Picker
+    Tipe_Klustur: '', // Dropdown Picker
     selectFile: '',
+    Nama_Pengusul: '',
+    No_Handphone: '',
+    Email: '',  
+    Alamat:'',
+    Judul_Proyek: '',
+    Deskripsi: '',
+    Luaran: '',
+    File: null,
+    NameFile: ''
   }
+  setDataPribadiWithId = (/*Number*/uid, /*Object*/data) => {
+    const setDataPribadi = users.doc(uid).collection('pribadi');
+    const {File, ...other} = data;
+  
+    const Storage = firebase.storage().ref(`pdf/${this.state.NameFile}`);
+  
+      setDataPribadi.add({
+        ...other
+      }).then(res => {
+        
+      }).catch(er => {
+        console.log(er);
+      })
+  
+      Storage.put(File);
+  }
+  
   handlePress = () => {
     if (this.state.display >= 2) {
+      const userState = useGlobalStore.getState().userState
+      this.setDataPribadiWithId(userState.uid, this.state);
       return
     }
     this.setState({ display: this.state.display + 1 })
@@ -37,10 +70,25 @@ export default class AddUsulanPribadi extends React.Component {
   }
   handlePickDocument = async () => {
     let document = await DocumentPicker.getDocumentAsync()
-    if (!document.cancelled) {
-      //this.setState({})
-    }
+    // console.log(document.file);
+    
+    let buff = new Buffer.from(document.uri).toString('base64');
+
+    if(document.uri.length !== 0)
+      this.setState({
+        File: buff,
+        NameFile: document.name
+      })
+    
+    return;
   }
+
+  onSubmit = () => {
+    // const {File, ...other} = this.state;
+    
+    // setDataPribadiWithId()
+  }
+
   render() {
     const layer = 2
     const { navigation } = this.props
@@ -79,21 +127,26 @@ export default class AddUsulanPribadi extends React.Component {
               <TextInput
                 placeholder="Nama Pengusul"
                 placeholderTextColor="#666872"
+                data-target="nama"
+                onChangeText={text => this.setState({...this.setState, Nama_Pengusul: text})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="No Handphone"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({...this.setState, No_Handphone: text})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="Email"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({...this.setState, Email: text})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="Alamat"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({...this.setState, Alamat: text})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
             </View>
@@ -106,6 +159,7 @@ export default class AddUsulanPribadi extends React.Component {
               <TextInput
                 placeholderTextColor="#666872"
                 placeholder="Judul Proyek"
+                onChangeText={text => this.setState({...this.setState, Judul_Proyek: text})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <View style={[Styles.input, AddUsulan.AdditionalInputStyle]}>
@@ -116,7 +170,7 @@ export default class AddUsulanPribadi extends React.Component {
                   ]}
                   selectedValue={selectOption}
                   onValueChange={(value, index) => {
-                    this.setState({ selectOption: value, index: index })
+                    this.setState({ Tipe_Klustur: value, index: index })
                   }}
                   dropdownIconColor="fff"
                   mode="dropdown"
@@ -139,6 +193,7 @@ export default class AddUsulanPribadi extends React.Component {
                 multiline
                 numberOfLines={4}
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({...this.setState, Deskripsi: text})}
                 maxLength={40}
                 style={[
                   Styles.input,
@@ -161,6 +216,7 @@ export default class AddUsulanPribadi extends React.Component {
               <TextInput
                 placeholder="Luaran"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({...this.setState, Luaran: text})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <View

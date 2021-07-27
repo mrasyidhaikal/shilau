@@ -1,7 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import 'firebase/firestore';
-import { Alert } from 'react-native';
 
 var firebaseConfig = {
   apiKey: 'AIzaSyAOVLgR-odhTjm7LVM2CEjISWYgIPZ2Ofs',
@@ -13,23 +12,33 @@ var firebaseConfig = {
 }
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig)  
+// console.log(firebase.app.length);
+// if(!firebase.app.length){
+  firebase.initializeApp(firebaseConfig)
+// }else{
+  // firebase.app();
+// }
+  
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
-const users = firestore.collection('users');
+export const users = firestore.collection('users');
 
 /**
  * 
  * @param {Number} uid Id User
  */
-export const getDataBaseId= (/*Number*/uid) => {
+export const getDataBaseId= async (/*Number*/uid) => {
   if(typeof uid !== 'number'){
     return;
   }
 
-  const dataRef = users.doc(uid);
+  const perusahaan = users.doc(uid).collection('perusahaan');
+  const pribadi = users.doc(uid).collection('pribadi');
 
-  const getRef = await dataRef.get(); // Snapshot
+  const CompanyRef = await perusahaan.get(); // Snapshot
+  const PrivateRef = await pribadi.get();
+
+  return [CompanyRef, PrivateRef];
 }
 /**
  * 
@@ -38,14 +47,19 @@ export const getDataBaseId= (/*Number*/uid) => {
  * 
  * Set Data Perusahaan Dengan Id
  */
-export const setDataPerusahaanWithId = (/*Number*/uid, /*Object*/other) => {
-  const setData = users.doc(uid);
+export const setDataPerusahaanWithId = (/*Number*/uid, /*Object*/data) => {
+  const setDataPerusahaan = users.doc(uid).collection('perusahaan');
+  const {image, ...other} = data;
 
-  setData.collection('perusahaan').set({
-    
-  }).then().catch(err => {
-    console.log(err);
+  setDataPerusahaan.add({
+    ...other
+  }).then(res => {
+    console.log(res);
+  }).catch(er => {
+    console.log(er);
   })
+  
+  return;
 }
 
 /**
@@ -53,8 +67,5 @@ export const setDataPerusahaanWithId = (/*Number*/uid, /*Object*/other) => {
  * @param {Number} uid Id User
  * @param {Object} other Data Yang Ingin disimpan
  */
-export const setDataPribadiWithId = (/*Number*/uid, /*Object*/other) => {
-
-}
 
 export default firebase;
