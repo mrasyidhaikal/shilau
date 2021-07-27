@@ -54,7 +54,27 @@ class LoginScreen extends React.Component {
         setIsLoggedIn(true)
       })
       .catch((err) => {
-        Alert.alert('Opps!, Terjadi Kesalahan', err.message)
+        switch (err.code) {
+          case 'auth/invalid-email':
+            return Alert.alert('Opps!, Terjadi Kesalahan', 'Email tidak valid')
+          case 'auth/user-disabled':
+            return Alert.alert(
+              'Opps!, Terjadi Kesalahan',
+              'Pengguna telah dinonaktifkan'
+            )
+          case 'auth/user-not-found':
+            return Alert.alert(
+              'Opps!, Terjadi Kesalahan',
+              'Pengguna tidak ditemukan'
+            )
+          case 'auth/wrong-password':
+            return Alert.alert(
+              'Opps!, Terjadi Kesalahan',
+              'Kata sandi tidak valid'
+            )
+          default:
+            return Alert.alert('Opps!, Terjadi Kesalahan', err.message)
+        }
       })
   }
 
