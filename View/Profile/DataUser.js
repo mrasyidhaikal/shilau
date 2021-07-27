@@ -9,6 +9,8 @@ import {
   ImageBackground,
   Image,
   Touchable,
+  Alert,
+  ToastAndroid,
 } from 'react-native'
 import BerandaStyle from './../Style/BerandaStyle'
 import MainUsulanStyle from './../Style/MainUsulan.style'
@@ -18,6 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import Style, { windowHeight, WIDTH, grey, biruMuda } from './../Style/Style'
 import useAuthStore from '../store/useAuthStore'
+import { auth } from '../../utils/firebase'
 
 class DataUser extends React.Component {
   constructor() {
@@ -30,7 +33,19 @@ class DataUser extends React.Component {
 
   handleLogout = () => {
     const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
-    setIsLoggedIn(false)
+    auth
+      .signOut()
+      .then(() => {
+        ToastAndroid.showWithGravity(
+          'Berhasil Logout !',
+          ToastAndroid.SHORT,
+          ToastAndroid.BOTTOM
+        )
+        setIsLoggedIn(false)
+      })
+      .catch((err) => {
+        Alert.alert('Opps!, Terjadi Kesalahan', err.message)
+      })
   }
 
   render() {
