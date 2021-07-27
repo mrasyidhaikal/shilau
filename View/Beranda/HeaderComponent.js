@@ -10,9 +10,16 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import BerandaStyle from '../Style/BerandaStyle'
 import Style, { putih } from '../Style/Style'
 import { useNavigation } from '@react-navigation/native'
+import { auth } from '../../utils/firebase'
 
 function HeaderComponent() {
   const navigation = useNavigation()
+
+  React.useEffect(() => {
+    const user = auth.currentUser
+    console.log(user)
+  }, [])
+
   return (
     <>
       <View style={[BerandaStyle.topBar, Style.wrapper]}>
@@ -25,7 +32,7 @@ function HeaderComponent() {
             <View style={BerandaStyle.profile_img}>
               <Image
                 style={{ width: '100%', height: '100%' }}
-                source={require('../../assets/person-female.jpg')}
+                source={require('../../assets/placeholder-user.png')}
               />
             </View>
           </TouchableOpacity>
