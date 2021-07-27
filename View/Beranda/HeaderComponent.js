@@ -10,20 +10,16 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import BerandaStyle from '../Style/BerandaStyle'
 import Style, { putih } from '../Style/Style'
 import { useNavigation } from '@react-navigation/native'
-import { auth } from '../../utils/firebase'
+import useGlobalStore from '../store/useGlobalStore'
 
 function HeaderComponent() {
   const navigation = useNavigation()
-
-  React.useEffect(() => {
-    const user = auth.currentUser
-    console.log(user.displayName)
-  }, [])
+  const userState = useGlobalStore((state) => state.userState)
 
   return (
     <>
       <View style={[BerandaStyle.topBar, Style.wrapper]}>
-        <View style={BerandaStyle.profile}>
+        <View style={[BerandaStyle.profile, { flex: 2 }]}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('ProfileStack', { screen: 'DataUser' })
@@ -38,12 +34,16 @@ function HeaderComponent() {
           </TouchableOpacity>
           <View>
             <Text style={Style.textNormalWhite}>Selamat Datang</Text>
-            <Text style={Style.textBold}>Clara Laudia</Text>
+            <Text style={[Style.textBold, { fontSize: 18 }]}>
+              {userState.fullName.length < 16
+                ? `${userState.fullName}`
+                : `${userState.fullName.substring(0, 13)}...`}
+            </Text>
           </View>
         </View>
-        <View style={BerandaStyle.logo}>
+        <View style={[BerandaStyle.logo, { flex: 1, alignItems: 'flex-end' }]}>
           <ImageBackground
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: 78, height: 50 }}
             source={require('../../assets/poltek.png')}
           />
         </View>

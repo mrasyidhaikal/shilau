@@ -21,13 +21,15 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import Style, { windowHeight, WIDTH, grey, biruMuda } from './../Style/Style'
 import useAuthStore from '../store/useAuthStore'
 import { auth } from '../../utils/firebase'
+import useGlobalStore from '../store/useGlobalStore'
 
 class DataUser extends React.Component {
   constructor() {
     super()
-
+    const userGlobalState = useGlobalStore.getState().userState
     this.state = {
       refreshing: false,
+      userState: { ...userGlobalState },
     }
   }
 
@@ -78,7 +80,9 @@ class DataUser extends React.Component {
                   source={require('../../assets/placeholder-user.png')}
                 />
               </View>
-              <Text style={Style.textBold}>Jenny Wilson</Text>
+              <Text style={Style.textBold}>
+                {this.state.userState.fullName}
+              </Text>
             </View>
 
             <View style={Style.ContainerViewBiasa}>
@@ -87,7 +91,9 @@ class DataUser extends React.Component {
                 <View style={[Style.input, { height: 70 }]}>
                   <View style={{ paddingTop: 10 }}>
                     <Text style={Style.textNormalGrey}>Nama</Text>
-                    <Text style={Style.textNormalWhite}>Jenny Wilson</Text>
+                    <Text style={Style.textNormalWhite}>
+                      {this.state.userState.fullName}
+                    </Text>
                   </View>
                 </View>
               </View>

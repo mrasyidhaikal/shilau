@@ -28,8 +28,8 @@ class LoginScreen extends React.Component {
       refreshing: false,
       showPass: true,
       press: false,
-      email: '',
-      password: '',
+      email: 'pbl.shilau@polibatam.com',
+      password: 'Admin123',
     }
   }
 
