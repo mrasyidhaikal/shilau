@@ -75,7 +75,7 @@ class DataUser extends React.Component {
               <View style={{ width: 100, height: 100, alignSelf: 'center' }}>
                 <Image
                   style={{ width: '100%', height: '100%', borderRadius: 50 }}
-                  source={require('../../assets/person-female.jpg')}
+                  source={require('../../assets/placeholder-user.png')}
                 />
               </View>
               <Text style={Style.textBold}>Jenny Wilson</Text>
