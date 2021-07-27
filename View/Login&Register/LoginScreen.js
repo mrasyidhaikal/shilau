@@ -54,7 +54,7 @@ class LoginScreen extends React.Component {
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         ToastAndroid.showWithGravity(
-          'Berhasil !',
+          'Berhasil Login !',
           ToastAndroid.SHORT,
           ToastAndroid.BOTTOM
         )
