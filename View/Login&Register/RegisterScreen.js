@@ -8,6 +8,7 @@ import {
   Text,
   ImageBackground,
   Image,
+  Alert,
 } from 'react-native'
 import BerandaStyle from './../Style/BerandaStyle'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -31,6 +32,7 @@ class RegisterScreen extends React.Component {
       password:"",
       errorInfo: '',
       showError: false,
+      recheck: "",
     }
   }
 
@@ -44,23 +46,23 @@ class RegisterScreen extends React.Component {
 
   checkPass = (pas) => {
     password = pas.toString();
-    if (password.length <= 6) {
+    if (password.length < 6) {
       this.setState({
-         errorInfo: 'Password Length Is Min 6',
+         errorInfo: 'Minimal Panjang Password 6',
          showError: true,
       })
       return;
     }
     if (!(/(?=[A-Z])/g.test(password))) {
       this.setState({
-        errorInfo: 'At Least One Upper Case',
+        errorInfo: 'Harus Terdiri Dari Satu Huruf Kapital',
         showError: true,
       });
       return;
     }
     if (!(/(?=[0-9])/g.test(password))) {
       this.setState({
-        errorInfo: 'At Least One Number',
+        errorInfo: 'Harus Terdiri Satu Angka',
         showError: true
       })      
       return
@@ -70,33 +72,45 @@ class RegisterScreen extends React.Component {
       errorInfo: "",
       showError: false,
     })
-
-    return password;
   }
 
 
   handleRegister = async (event) => {
-    const { username, email, password, errorInfo } = this.state;
+    const { username, email, password, errorInfo, showError, recheck } = this.state;
+    if(username.length == 0){
+      this.setState({
+        errorInfo: 'Full Name Tidak Boleh Kosong',
+        showError: true
+      });
+      return
+    }
 
     if(email.length == 0){
       this.setState({
-        errorInfo: 'Email is empty',
+        errorInfo: 'Email Tidak Boleh Kosong',
         showError: true
       });
       return
     }
 
     if (!(/^[\w\.\-]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email))) {
-      this.setState({
-        errorinfo: 'Email Format is Wrong',
-        showError: true
-      });
+      Alert.alert('Format Email', 'Format Email Salah');
+      return;
+    }
+   
+    if(recheck !== password){
+      Alert.alert('Password Retype', 'Password Tidak Sama dengan yang di retype');
       return;
     }
 
-    if(errorInfo.length != 0){
+    if(errorInfo.length != 0 && showError ){
       return;
     }
+
+    this.setState({
+      errorInfo: "",
+      showError: false,
+    })
 
     auth.createUserWithEmailAndPassword(email, password).then((ss)=> {
       auth.currentUser.updateProfile({
@@ -111,33 +125,42 @@ class RegisterScreen extends React.Component {
       setIsLoggedIn(true)
 
     }, (errorSignUp) => {
-      console.log('Error Sign', errorSignUp);
+      Alert.alert('Opps!, Terjadi Kesalahan', errorSignUp)
     })
     
   }
   
   handlePass = (Password) => {
-    const password = this.checkPass(Password);
+    // this.checkPass(Password);
     this.setState({
-      ...this.state,
-      password: password
+      ...this.setState,
+      password: Password
+    }, () => {
+      this.checkPass(this.state.password)
     })
     return;
   }
 
   handleEmail = (email) => {
     this.setState({
-      ...this.state,
+      ...this.setState,
       email: email,
     });
     return;
   }
   handleUsername = (name) => {
     this.setState({
-      ...this.state,
+      ...this.setState,
       username: name
     })
     return
+  }
+
+  handleCheckSamePass = (check) => {
+    this.setState({
+      ...this.setState,
+      recheck: check
+    });
   }
 
   render() {
@@ -164,8 +187,8 @@ class RegisterScreen extends React.Component {
             <View
               style={{ marginHorizontal: 25, marginTop: 80, marginBottom: 50 }}
             >
-              {
-                  this.state.showError && <Text style={{color: 'red', textAlign: 'center', fontSize: 14}}>{`${this.state.errorInfo}`}</Text>
+                {
+                  this.state.showError && <Text style={{color: 'yellow', textAlign: 'center', fontSize: 14}}>{`${this.state.errorInfo}`}</Text>
                 }
               <View style={Style.inputContainer}>
                 
@@ -229,6 +252,7 @@ class RegisterScreen extends React.Component {
                   placeholder={'Masukkan Password'}
                   placeholderTextColor={grey}
                   secureTextEntry={this.state.showPass}
+                  onChangeText={check => this.handleCheckSamePass(check)}
                 />
 
                 <TouchableOpacity
