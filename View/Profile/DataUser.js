@@ -51,29 +51,35 @@ class DataUser extends React.Component {
   }
 
   handleEmailVerification = () => {
-    const user = auth.currentUser;
-    console.log(user.emailVerified);
-    if(!user.emailVerified){
-      user.sendEmailVerification().then(() => {
-        Alert.alert('Email', 'Email Verifiaction Sent');
-      }).catch(err => {
-        console.log(err);
-      })
-      
+    const user = auth.currentUser
+    console.log(user.emailVerified)
+    if (!user.emailVerified) {
+      user
+        .sendEmailVerification()
+        .then(() => {
+          Alert.alert('Email', 'Email Verifiaction Sent')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
       return
     }
-    Alert.alert('Email', 'Email Anda Sudah Pernah Verfikasi');
-    return;
+    Alert.alert('Email', 'Email Anda Sudah Pernah Verfikasi')
+    return
   }
 
   handleGantiPassword = () => {
-    const user = auth.currentUser;
-    console.log(user.emailVerified);
-    auth.sendPasswordResetEmail(user.email).then(() => {
-      Alert.alert('Password Reset', 'Password Reset Ada Di Email Anda');
-    }).catch(err => {
-      console.log(err);
-    })
+    const user = auth.currentUser
+    console.log(user.emailVerified)
+    auth
+      .sendPasswordResetEmail(user.email)
+      .then(() => {
+        Alert.alert('Password Reset', 'Password Reset Ada Di Email Anda')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   render() {
@@ -126,34 +132,38 @@ class DataUser extends React.Component {
             </View>
             <View style={Style.ContainerViewBiasa}>
               <Text style={Style.textBold}>Keamanan</Text>
-              <View style={Style.inputContainer}>
-                <View style={[Style.input]}>
-                  <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                    <Icon
-                      name="ios-phone-portrait-outline"
-                      size={26}
-                      color={biruMuda}
-                    ></Icon>
-                    <Text style={[Style.textNormalWhite, { marginLeft: 10 }]} onPress={this.handleEmailVerification}>
-                      Verifikasi Email
-                    </Text>
+              <TouchableOpacity onPress={this.handleEmailVerification}>
+                <View style={Style.inputContainer}>
+                  <View style={[Style.input]}>
+                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                      <Icon
+                        name="ios-phone-portrait-outline"
+                        size={26}
+                        color={biruMuda}
+                      ></Icon>
+                      <Text style={[Style.textNormalWhite, { marginLeft: 10 }]}>
+                        Verifikasi Email
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-              <View style={Style.inputContainer}>
-                <View style={[Style.input]}>
-                  <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                    <Icon
-                      name="ios-lock-closed-outline"
-                      size={26}
-                      color={biruMuda}
-                    ></Icon>
-                    <Text style={[Style.textNormalWhite, { marginLeft: 10 }]} onPress={this.handleGantiPassword}>
-                      Ganti Password
-                    </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.handleGantiPassword}>
+                <View style={Style.inputContainer}>
+                  <View style={[Style.input]}>
+                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                      <Icon
+                        name="ios-lock-closed-outline"
+                        size={26}
+                        color={biruMuda}
+                      ></Icon>
+                      <Text style={[Style.textNormalWhite, { marginLeft: 10 }]}>
+                        Ganti Password
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
 
             <View style={Style.ContainerViewBiasa}>
