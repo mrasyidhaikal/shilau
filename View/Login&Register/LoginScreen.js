@@ -8,6 +8,8 @@ import {
   Text,
   ImageBackground,
   Image,
+  ToastAndroid,
+  Alert,
 } from 'react-native'
 import BerandaStyle from './../Style/BerandaStyle'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -15,8 +17,8 @@ import moment from 'moment'
 import Icon from 'react-native-vector-icons/Ionicons'
 import useAuthStore from '../store/useAuthStore'
 
-
 import Style, { windowHeight, WIDTH, grey } from './../Style/Style'
+import { auth } from '../../utils/firebase'
 
 class LoginScreen extends React.Component {
   constructor() {
@@ -26,6 +28,8 @@ class LoginScreen extends React.Component {
       refreshing: false,
       showPass: true,
       press: false,
+      email: '',
+      password: '',
     }
   }
 
@@ -37,10 +41,28 @@ class LoginScreen extends React.Component {
     }
   }
 
+  // handleOnChange = (name, value) => {
+  //   this.setState({
+  //     ...this.state,
+  //     [name]: value,
+  //   })
+  // }
+
   handleLogin = () => {
     const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
-
-    setIsLoggedIn(true)
+    auth
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => {
+        ToastAndroid.showWithGravity(
+          'Berhasil !',
+          ToastAndroid.SHORT,
+          ToastAndroid.BOTTOM
+        )
+        setIsLoggedIn(true)
+      })
+      .catch((err) => {
+        Alert.alert('Opps!, Terjadi Kesalahan', err.message)
+      })
   }
 
   render() {
@@ -75,6 +97,10 @@ class LoginScreen extends React.Component {
                   style={Style.inputLogin}
                   placeholder={'Masukkan Email'}
                   placeholderTextColor={grey}
+                  value={this.state.email}
+                  onChangeText={(email) =>
+                    this.setState({ ...this.state, email })
+                  }
                 />
                 <Icon
                   name={'ios-mail-outline'}
@@ -88,7 +114,11 @@ class LoginScreen extends React.Component {
                   style={Style.inputLogin}
                   placeholder={'Masukkan Password'}
                   placeholderTextColor={grey}
+                  value={this.state.password}
                   secureTextEntry={this.state.showPass}
+                  onChangeText={(password) =>
+                    this.setState({ ...this.state, password })
+                  }
                 />
                 <Icon
                   name={'ios-lock-closed-outline'}
