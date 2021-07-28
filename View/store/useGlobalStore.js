@@ -6,6 +6,7 @@ const useGlobalStore = create((set) => ({
     email: '',
     uid: '',
   },
+
   setUser: (fullName, email, uid) => {
     set({
       userState: {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   SafeAreaView,
   Text,
@@ -16,9 +16,28 @@ import BerandaStyle from '../Style/BerandaStyle'
 import MainUsulanStyle from '../Style/MainUsulan.style'
 import AddUsulanStyle from '../Style/AddUsulan.style'
 
-function DetailProyek() {
-  const [selectedValue, setSelectedValue] = useState('java')
+function DetailProyek({ route }) {
+  const [dataUsulan, setDataUsulan] = useState({
+    Alamat: '',
+    Deskripsi: '',
+    Email: '',
+    Judul_Proyek: '',
+    Luaran: 'asdasdsad',
+    Nama_Pengusul: '',
+    NameFile: '',
+    No_Handphone: '',
+    Status: 0,
+    Tanggal_Pengajuan: '',
+    Tipe_Klustur: '',
+    id: '',
+  })
   const navigation = useNavigation()
+
+  useEffect(() => {
+    const { params } = route
+    setDataUsulan(params.dataUsulan)
+  }, [])
+
   return (
     <SafeAreaView style={Style.container}>
       <ScrollView>
@@ -56,10 +75,12 @@ function DetailProyek() {
                 marginBottom: 20,
               },
             ]}
+            value={dataUsulan.Nama_Pengusul}
           />
           <TextInput
             placeholder="No. Handphone"
             placeholderTextColor="#666872"
+            value={dataUsulan.No_Handphone}
             style={[
               Style.inputNoWidth,
               {
@@ -70,6 +91,7 @@ function DetailProyek() {
           <TextInput
             placeholder="E-mail"
             placeholderTextColor="#666872"
+            value={dataUsulan.Email}
             style={[
               Style.inputNoWidth,
               {
@@ -80,6 +102,7 @@ function DetailProyek() {
           <TextInput
             placeholder="Alamat"
             placeholderTextColor="#666872"
+            value={dataUsulan.Alamat}
             style={[
               Style.inputNoWidth,
               {
@@ -96,6 +119,7 @@ function DetailProyek() {
           <TextInput
             placeholder="Judul Proyek"
             placeholderTextColor="#666872"
+            value={dataUsulan.Judul_Proyek}
             style={[
               Style.inputNoWidth,
               {
@@ -118,21 +142,25 @@ function DetailProyek() {
                 Style.inputNoWidth,
                 { position: 'absolute', left: 0, width: '100%', color: `#fff` },
               ]}
-              selectedValue={selectedValue}
+              selectedValue={dataUsulan.Tipe_Klustur}
               onValueChange={(itemValue, itemIndex) =>
-                setSelectedValue(itemValue)
+                setDataUsulan({ ...dataUsulan, Tipe_Klustur: itemValue })
               }
               mode="dropdown"
             >
-              <Picker.Item label="Tipe Cluster/Kluster" value="" />
-              <Picker.Item label="Elektro" value="elektro" />
-              <Picker.Item label="Informatika" value="informatika" />
-              <Picker.Item label="Mesin" value="mesin" />
+              <Picker.Item label="Tipe Kluster" enabled={false} />
+              <Picker.Item label="Web Application" value="Web Application" />
+              <Picker.Item
+                label="Mobile Application"
+                value="Mobile Application"
+              />
+              <Picker.Item label="Big Data" value="Big Data" />
             </Picker>
           </View>
           <TextInput
             placeholder="Ide Proyek/Deskripsi Masalah/Spesifikasi"
             placeholderTextColor="#666872"
+            value={dataUsulan.Deskripsi}
             style={[
               Style.inputNoWidth,
               {
@@ -143,6 +171,7 @@ function DetailProyek() {
           <TextInput
             placeholder="Luaran"
             placeholderTextColor="#666872"
+            value={dataUsulan.Luaran}
             style={[
               Style.inputNoWidth,
               {

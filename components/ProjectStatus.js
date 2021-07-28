@@ -14,18 +14,19 @@ import {
   RefreshControl,
   ImageBackground,
 } from 'react-native'
+import { HandleTextStatus } from '../utils/utility'
 import { biruMuda, ijo, putih, ungu } from '../View/Style/Style'
 
 function ProjectStatus({ status }) {
   const handleColor = (data) => {
-    if (data === 'belum check out') {
+    if (data === 0) {
       return biruMuda
     }
-    if (data === 'selesai') {
-      return ijo
-    }
-    if (data === 'lihat tracking') {
+    if (data === 1) {
       return ungu
+    }
+    if (data === 2) {
+      return ijo
     }
   }
 
@@ -36,7 +37,7 @@ function ProjectStatus({ status }) {
         paddingHorizontal: 10,
         alignSelf: 'flex-start',
         backgroundColor: handleColor(status),
-        borderRadius: 50,
+        borderRadius: 60,
         marginLeft: 'auto',
       }}
     >
@@ -48,7 +49,7 @@ function ProjectStatus({ status }) {
           textTransform: 'capitalize',
         }}
       >
-        {status}
+        {HandleTextStatus(status)}
       </Text>
     </View>
   )

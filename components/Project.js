@@ -4,27 +4,32 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Style, { putih, biruMuda, ijo, dark, grey } from '../View/Style/Style'
 import ProjectStatus from './ProjectStatus'
-function Project({ data: { id, title, status, date } }) {
+function Project({ data }) {
   const navigation = useNavigation()
+  const handleChangePage = () => {
+    navigation.navigate('DetailProyek', {
+      screen: 'DetailProyek',
+      params: { dataUsulan: data },
+    })
+  }
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('DetailProyek')}
-      style={styles.project_item}
-    >
+    <TouchableOpacity onPress={handleChangePage} style={styles.project_item}>
       <View style={styles.project_item_top}>
         <Icon
           style={{ fontSize: 24, color: biruMuda }}
           name="ios-hourglass-outline"
         />
         <Text style={[Style.textNormalWhite, { marginLeft: 10 }]}>
-          {title ? title : 'Judul Proyek'}
+          {data.Judul_Proyek ? data.Judul_Proyek : 'Judul Proyek'}
         </Text>
-        <ProjectStatus status={status} />
+        <ProjectStatus status={data.Status} />
       </View>
       <View style={styles.project_item_bottom}>
-        <Text style={{ color: putih, fontSize: 14 }}>{id ? id : '0000'}</Text>
+        <Text style={{ color: putih, fontSize: 14 }}>
+          {data.id ? data.id : '0000'}
+        </Text>
         <Text style={{ color: putih, fontSize: 14, marginLeft: 'auto' }}>
-          {date ? date : '00 00 0000'}
+          {data.Tanggal_Pengajuan ? data.Tanggal_Pengajuan : '00 00 0000'}
         </Text>
       </View>
       <View style={styles.project_item_bottom}></View>
