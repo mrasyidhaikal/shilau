@@ -42,5 +42,32 @@ export const checkUrlWebsite = (url) => {
     }
     return
 }
+/**
+ * 
+ * @param {*} s 
+ * @returns {String}
+ */
+export const timeConversion = (s) => {
+    let aa = s.replace(/[^A-Z]/g, "");
+    let hours = parseInt(s.split(":")[0]);
+    let minute = parseInt(s.split(":")[1]);
+    
+    if(aa === "PM"){
+        if(hours !== 12){
+            hours += 12;
+        }
+    }else if(aa === "AM" && hours >= 12){
+        hours -= 12;
+    }
+    let time = s.split(":");
+    if(hours < 10){
+        time[0] = `0${hours}`;
+    }else{
+        time[0] = hours;
+    }
+    time[2] = time[2].replace(/[A-Z]/g, "");
+    return time.join(":");
+    // console.log(hours)
+}
 
 

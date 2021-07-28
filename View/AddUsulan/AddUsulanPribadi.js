@@ -50,13 +50,13 @@ export default class AddUsulanPribadi extends React.Component {
         checkLengthDesk(this.state.data.Deskripsi);
         checkTipeKlustur(this.state.data.Tipe_Klustur);
 
-        // let final = setDataWithId(userState.uid, this.state.data, 'pribadi');
+        let final = setDataWithId(userState.uid, this.state.data, 'pribadi');
         if(final){
           Alert.alert('Berhasil', "Data Berhasil Disimpan!");
           this.props.navigation.goBack();
         }
       } catch (error) {
-        Alert.alert('Gagal!!', error);
+        Alert.alert('Gagal!!', error.message);
       }
       // console.log(this.state.data);
       return
@@ -73,7 +73,9 @@ export default class AddUsulanPribadi extends React.Component {
   }
   handlePickDocument = async () => {
     let document = await DocumentPicker.getDocumentAsync()
-
+    if(document.type =='cancel'){
+      return;
+    }
     const useState = useGlobalStore.getState().userState;
     const name = document.name.toString();
     

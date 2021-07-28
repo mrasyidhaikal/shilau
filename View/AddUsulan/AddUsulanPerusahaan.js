@@ -57,20 +57,20 @@ class AddUsulanPerusahaan extends React.Component {
     if (this.state.display >= 3) {
       const userState = useGlobalStore.getState().userState
       try {
-        
+
         checkEmailFormat(this.state.data.Email);
         checkLengthNoPhone(this.state.data.No_Handphone);
         checkLengthDesk(this.state.data.Deskripsi);
         checkTipeKlustur(this.state.data.Tipe_Klustur);
         checkUrlWebsite(this.state.data.Website_Perusahaan)
-
+        // console.log(this.state.data);
         let final = setDataWithId(userState.uid, this.state.data, 'perusahaan');  
         if(final){
           Alert.alert('Berhasil!!', "Data Berhasil Disimpan!");
           this.props.navigation.goBack();
         }
       } catch (error) {
-        Alert.alert('Gagal!!', error);
+        Alert.alert('Gagal!!', error.message);
       }
       return
     }
@@ -83,14 +83,38 @@ class AddUsulanPerusahaan extends React.Component {
   }
   handlePickDocument = async () => {
     let document = await DocumentPicker.getDocumentAsync()
-    if(document.type == "success"){
-      let buff = new Buffer.from(document.uri).toString('base64');
-      this.setState({data:{
-        ...this.state.data,
-        File: buff,
-        NameFile: document.name
-      }})
+    if(document.type == 'cancel'){
+      return;
     }
+    const useState = useGlobalStore.getState().userState;
+    const name = document.name.toString();
+    
+    const findExt = name.split('.');
+    
+    const documentName = `${useState.uid}_${Date.now()}.${findExt[findExt.length - 1]}`;
+
+    let buff = new Buffer.from(document.uri).toString('base64');
+
+    let getLengthFile = document.size / 1048576;
+    const max = 1048576 * 5;
+
+    if(!(getLengthFile < max)){
+      Alert.alert('File Kebesaran', 'File Telah Melalui Batas Maksimal');
+      return;
+    }
+    const ext = findExt[findExt.length - 1]; 
+    if( ext !== 'rar' || ext !== 'zip' ){
+      Alert.alert('Format File', 'Format File Salah');
+      return;
+    }
+    if(document.uri.length !== 0)
+      this.setState({
+        data:{
+          ...this.state.data,
+          File: buff,
+          NameFile: documentName
+        }
+      })
   }
 
   render() {
