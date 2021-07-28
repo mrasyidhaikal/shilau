@@ -59,6 +59,7 @@ class AddUsulanPerusahaan extends React.Component {
         let final = setDataWithId(userState.uid, this.state.data, 'perusahaan');  
         if(final){
           Alert.alert('Berhasil!!', "Data Berhasil Disimpan!");
+          this.props.navigation.goBack();
         }
       } catch (error) {
         Alert.alert('Gagal!!', error);
