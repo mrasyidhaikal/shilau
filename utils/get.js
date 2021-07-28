@@ -14,7 +14,6 @@ export const getUsulan = async (uid) => {
             res.id = val.id;
             resultGetUsulanPribadi.push(res)
         })
-        
 
         let resultGetUSulanPerusahaan = [];
         let dataPerusahaan = await Perusahaan.get();

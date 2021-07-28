@@ -15,6 +15,11 @@ export const checkLengthNoPhone = (phoneNumber) => {
     if(phoneNumber <= 6){
         throw new Error('Nomor Handphone Terlalu Pendek')
     }
+
+    const regex = /[0-9+\/ ]/gi;
+    if(!regex.test(phoneNumber)){
+        throw new Error('No Hp Berisi Angka saja')
+    }
     return
 }
 
