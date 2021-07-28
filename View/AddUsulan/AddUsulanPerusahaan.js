@@ -10,6 +10,7 @@ import {
   TextInput,
   ScrollView,
   RefreshControl,
+  Alert,
 } from 'react-native'
 
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -19,6 +20,9 @@ import MainUsulanStyle from '../Style/MainUsulan.style'
 import AddUsulan from '../Style/AddUsulan.style'
 import { Picker } from '@react-native-picker/picker'
 import * as DocumentPicker from 'expo-document-picker'
+import useGlobalStore from '../store/useGlobalStore'
+import { Buffer } from 'buffer';
+import { setDataWithId } from '../../utils/set';
 
 class AddUsulanPerusahaan extends React.Component {
   constructor() {
@@ -27,12 +31,38 @@ class AddUsulanPerusahaan extends React.Component {
     this.state = {
       refreshing: false,
       display: 1,
-      selectOption: '', // Dropdown Picker
-      selectFile: '',
+      data: {
+        Nama_Pengusul:'',
+        No_Handphone:'',
+        Email:'',
+        Alamat: '',
+        Nama_Perusahaan: '',
+        Alamat_Perusahaan: '',
+        Isi_Industri_atau_Sektor: '',
+        Jumlah_Karyawan: '',
+        Website_Perusahaan: '',
+        Judul_Proyek:'',
+        Tipe_Klustur: '',
+        Deskripsi:'',
+        Luaran:'',
+        File: null,
+        NameFile:''
+      }
     }
   }
+
+  
   handlePress = (e) => {
     if (this.state.display >= 3) {
+      const userState = useGlobalStore.getState().userState
+      try {
+        let final = setDataWithId(userState.uid, this.state.data, 'perusahaan');  
+        if(final){
+          Alert.alert('Berhasil!!', "Data Berhasil Disimpan!");
+        }
+      } catch (error) {
+        Alert.alert('Gagal!!', error);
+      }
       return
     }
     this.setState({ display: this.state.display + 1 })
@@ -44,8 +74,13 @@ class AddUsulanPerusahaan extends React.Component {
   }
   handlePickDocument = async () => {
     let document = await DocumentPicker.getDocumentAsync()
-    if (!document.cancelled) {
-      //this.setState({})
+    if(document.type == "success"){
+      let buff = new Buffer.from(document.uri).toString('base64');
+      this.setState({data:{
+        ...this.state.data,
+        File: buff,
+        NameFile: document.name
+      }})
     }
   }
 
@@ -87,22 +122,26 @@ class AddUsulanPerusahaan extends React.Component {
               <TextInput
                 placeholder="Nama Pengusul"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data:{...this.state.data, Nama_Pengusul: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="No Handphone"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data:{...this.state.data, No_Handphone: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="Email"
                 keyboardType="email-address"
+                onChangeText={text => this.setState({data:{...this.state.data, Email:text}})}
                 placeholderTextColor="#666872"
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="Alamat"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data:{...this.state.data, Alamat: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
             </View>
@@ -115,26 +154,31 @@ class AddUsulanPerusahaan extends React.Component {
               <TextInput
                 placeholder="Nama Perusahaan"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data:{...this.state.data, Nama_Perusahaan: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
-                placeholder="Alamat"
+                placeholder="Alamat Perusahaan"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data: {...this.state.data, Alamat_Perusahaan: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="Isi Industri atau Sektor"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data:{...this.state.data, Isi_Industri_atau_Sektor: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="Jumlah Karyawan"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data: {...this.state.data, Jumlah_Karyawan: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
-                placeholder="Website"
+                placeholder="Website Perusahaan"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data:{...this.state.data, Website_Perusahaan: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
             </View>
@@ -147,6 +191,7 @@ class AddUsulanPerusahaan extends React.Component {
               <TextInput
                 placeholderTextColor="#666872"
                 placeholder="Judul Proyek"
+                onChangeText={text => this.setState({data:{...this.state.data, Judul_Proyek: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <View style={[Styles.input, AddUsulan.AdditionalInputStyle]}>
@@ -157,7 +202,7 @@ class AddUsulanPerusahaan extends React.Component {
                   ]}
                   selectedValue={selectOption}
                   onValueChange={(value, index) => {
-                    this.setState({ selectOption: value, index: index })
+                    this.setState({ ...this.state, data:{...this.state.data, Tipe_Klustur: value}, index: index })
                   }}
                   dropdownIconColor="fff"
                   mode="dropdown"
@@ -179,6 +224,7 @@ class AddUsulanPerusahaan extends React.Component {
                 multiline
                 numberOfLines={4}
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data:{...this.state.data, Deskripsi: text}})}
                 maxLength={40}
                 style={[
                   Styles.input,
@@ -202,6 +248,7 @@ class AddUsulanPerusahaan extends React.Component {
               <TextInput
                 placeholder="Luaran"
                 placeholderTextColor="#666872"
+                onChangeText={text => this.setState({data:{...this.state.data, Luaran: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <View

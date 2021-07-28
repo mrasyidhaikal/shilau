@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Alert,
 } from 'react-native'
 import Styles from '../Style/Style'
 import MainUsulanStyle from '../Style/MainUsulan.style'
@@ -13,49 +14,43 @@ import AddUsulan from '../Style/AddUsulan.style'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Picker } from '@react-native-picker/picker'
 import * as DocumentPicker from 'expo-document-picker'
-import firebase, { users } from '../../utils/firebase'
+import { setDataWithId } from '../../utils/set'
 import useGlobalStore from '../store/useGlobalStore'
 import { Buffer } from 'buffer'
-import 'firebase/storage';
 // const { StorageAccessFramework } = DocumentPicker;
 
 export default class AddUsulanPribadi extends React.Component {
   state = {
     index: 0,
     display: 1,
-    Tipe_Klustur: '', // Dropdown Picker
-    selectFile: '',
-    Nama_Pengusul: '',
-    No_Handphone: '',
-    Email: '',  
-    Alamat:'',
-    Judul_Proyek: '',
-    Deskripsi: '',
-    Luaran: '',
-    File: null,
-    NameFile: ''
-  }
-  setDataPribadiWithId = (/*Number*/uid, /*Object*/data) => {
-    const setDataPribadi = users.doc(uid).collection('pribadi');
-    const {File, ...other} = data;
-  
-    const Storage = firebase.storage().ref(`pdf/${this.state.NameFile}`);
-  
-      setDataPribadi.add({
-        ...other
-      }).then(res => {
-        
-      }).catch(er => {
-        console.log(er);
-      })
-  
-      Storage.put(File);
+    data:{
+      Tipe_Klustur: '',
+      Nama_Pengusul: '',
+      No_Handphone: '',
+      Email:'',
+      Alamat:'',
+      Judul_Proyek:'',
+      Deskripsi:'',
+      Luaran:'',
+      File:null,
+      NameFile:''
+    }
   }
   
-  handlePress = () => {
+  
+  handlePress = async () => {
     if (this.state.display >= 2) {
       const userState = useGlobalStore.getState().userState
-      this.setDataPribadiWithId(userState.uid, this.state);
+      try {
+        let final = setDataWithId(userState.uid, this.state.data, 'pribadi');
+        if(final){
+          Alert.alert('Berhasil', "Data Berhasil Disimpan!");
+          this.props.navigation.goBack();
+        }
+      } catch (error) {
+        Alert.alert('Gagal!!', error);
+      }
+      // console.log(this.state.data);
       return
     }
     this.setState({ display: this.state.display + 1 })
@@ -76,17 +71,14 @@ export default class AddUsulanPribadi extends React.Component {
 
     if(document.uri.length !== 0)
       this.setState({
-        File: buff,
-        NameFile: document.name
+        data:{
+          ...this.state.data,
+          File: buff,
+          NameFile: document.name
+        }
       })
     
     return;
-  }
-
-  onSubmit = () => {
-    // const {File, ...other} = this.state;
-    
-    // setDataPribadiWithId()
   }
 
   render() {
@@ -128,25 +120,25 @@ export default class AddUsulanPribadi extends React.Component {
                 placeholder="Nama Pengusul"
                 placeholderTextColor="#666872"
                 data-target="nama"
-                onChangeText={text => this.setState({...this.setState, Nama_Pengusul: text})}
+                onChangeText={text => this.setState({data: {...this.state.data, Nama_Pengusul: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="No Handphone"
                 placeholderTextColor="#666872"
-                onChangeText={text => this.setState({...this.setState, No_Handphone: text})}
+                onChangeText={text => this.setState({data: {...this.state.data, No_Handphone: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="Email"
                 placeholderTextColor="#666872"
-                onChangeText={text => this.setState({...this.setState, Email: text})}
+                onChangeText={text => this.setState({data:{...this.state.data, Email: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <TextInput
                 placeholder="Alamat"
                 placeholderTextColor="#666872"
-                onChangeText={text => this.setState({...this.setState, Alamat: text})}
+                onChangeText={text => this.setState({data:{...this.state.data, Alamat: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
             </View>
@@ -159,7 +151,7 @@ export default class AddUsulanPribadi extends React.Component {
               <TextInput
                 placeholderTextColor="#666872"
                 placeholder="Judul Proyek"
-                onChangeText={text => this.setState({...this.setState, Judul_Proyek: text})}
+                onChangeText={text => this.setState({ data:{...this.state.data, Judul_Proyek: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <View style={[Styles.input, AddUsulan.AdditionalInputStyle]}>
@@ -170,7 +162,7 @@ export default class AddUsulanPribadi extends React.Component {
                   ]}
                   selectedValue={selectOption}
                   onValueChange={(value, index) => {
-                    this.setState({ Tipe_Klustur: value, index: index })
+                    this.setState({...this.state, data:{...this.state.data, Tipe_Klustur: value }, index: index })
                   }}
                   dropdownIconColor="fff"
                   mode="dropdown"
@@ -193,7 +185,7 @@ export default class AddUsulanPribadi extends React.Component {
                 multiline
                 numberOfLines={4}
                 placeholderTextColor="#666872"
-                onChangeText={text => this.setState({...this.setState, Deskripsi: text})}
+                onChangeText={text => this.setState({ data:{...this.state.data, Deskripsi: text}})}
                 maxLength={40}
                 style={[
                   Styles.input,
@@ -216,7 +208,7 @@ export default class AddUsulanPribadi extends React.Component {
               <TextInput
                 placeholder="Luaran"
                 placeholderTextColor="#666872"
-                onChangeText={text => this.setState({...this.setState, Luaran: text})}
+                onChangeText={text => this.setState({data:{...this.state.data, Luaran: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
               />
               <View
@@ -228,6 +220,7 @@ export default class AddUsulanPribadi extends React.Component {
               >
                 <TouchableOpacity
                   onPress={this.handlePickDocument}
+                  
                 >
                   <Text style={[Styles.textNormalWhite]}>Pilih File</Text>
                 </TouchableOpacity>
