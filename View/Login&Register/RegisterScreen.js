@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import Style, { windowHeight, WIDTH, grey } from './../Style/Style'
 import MainUsulanStyle from './../Style/MainUsulan.style'
 import { auth } from '../../utils/firebase';
+import { checkEmailFormat } from '../../utils/utility'
 import useAuthStore from '../store/useAuthStore' 
 
 class RegisterScreen extends React.Component {
@@ -92,9 +93,10 @@ class RegisterScreen extends React.Component {
       });
       return
     }
-
-    if (!(/^[\w\.\-]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email))) {
-      Alert.alert('Format Email', 'Format Email Salah');
+    try {
+      checkEmailFormat(email);
+    } catch (error) {
+      Alert.alert('Gagal', error);
       return;
     }
    

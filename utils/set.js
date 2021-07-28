@@ -19,9 +19,9 @@ export const setDataWithId = async (uid, data, collection) => {
 
     const setDataPribadi = users.doc(uid).collection(collection);
     const {File, NameFile, ...other} = data;
-
+    const status = {status: 0};
     try {
-        await setDataPribadi.add({...other, NameFile})
+        await setDataPribadi.add({...other, NameFile, status})
     } catch (error) {
         throw new Error('Gagal Meyimpan Data');
     }

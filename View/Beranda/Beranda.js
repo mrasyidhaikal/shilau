@@ -9,6 +9,7 @@ import DATA from './dataDummy'
 import HeaderComponent from './HeaderComponent'
 import useGlobalStore from '../store/useGlobalStore'
 import { auth } from '../../utils/firebase'
+import { getUsulan } from '../../utils/get'
 
 function renderProject({ item }) {
   return (
@@ -24,12 +25,18 @@ class Beranda extends React.Component {
 
     this.state = {
       refreshing: false,
+      data: []
     }
   }
 
   componentDidMount() {
     const setUser = useGlobalStore.getState().setUser
     const user = auth.currentUser
+    getUsulan(user.uid).then((val) => {
+      this.setState({
+        data: val
+      });
+    })
     setUser(user.displayName, user.email, user.uid)
   }
 

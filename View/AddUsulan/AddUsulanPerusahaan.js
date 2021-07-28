@@ -23,6 +23,7 @@ import * as DocumentPicker from 'expo-document-picker'
 import useGlobalStore from '../store/useGlobalStore'
 import { Buffer } from 'buffer';
 import { setDataWithId } from '../../utils/set';
+import { checkEmailFormat, checkLengthDesk, checkLengthNoPhone, checkTipeKlustur, checkUrlWebsite } from '../../utils/utility'
 
 class AddUsulanPerusahaan extends React.Component {
   constructor() {
@@ -56,6 +57,13 @@ class AddUsulanPerusahaan extends React.Component {
     if (this.state.display >= 3) {
       const userState = useGlobalStore.getState().userState
       try {
+        
+        checkEmailFormat(this.state.data.Email);
+        checkLengthNoPhone(this.state.data.No_Handphone);
+        checkLengthDesk(this.state.data.Deskripsi);
+        checkTipeKlustur(this.state.data.Tipe_Klustur);
+        checkUrlWebsite(this.state.data.Website_Perusahaan)
+
         let final = setDataWithId(userState.uid, this.state.data, 'perusahaan');  
         if(final){
           Alert.alert('Berhasil!!', "Data Berhasil Disimpan!");
