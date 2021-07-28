@@ -68,7 +68,7 @@ export const setDataWithId = async (uid, data, collection) => {
     let time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
     
     
-    const createdAt = `${date.getDate()} ${MON(date.getMonth() + 1)} ${date.getFullYear()} ${timeConversion(time).substr(0, 5)}` 
+    const createdAt = `${date.getDate()} ${MON(date.getMonth() + 1)} ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}` 
     try {
         await setDataPribadi.add({
             ...other,
