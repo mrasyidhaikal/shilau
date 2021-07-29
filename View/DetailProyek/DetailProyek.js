@@ -314,6 +314,7 @@ function DetailProyek({ route }) {
           AddUsulanStyle.AdditionalButton,
         ]}
         onPressOut={onPressSave}
+        disabled={enabled}
       >
         <Text style={Style.textNormalWhite}>Save</Text>
       </TouchableOpacity>
