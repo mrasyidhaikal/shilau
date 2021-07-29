@@ -6,6 +6,8 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  TouchableOpacityBase,
+  Alert,
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -15,8 +17,17 @@ import { Picker } from '@react-native-picker/picker'
 import BerandaStyle from '../Style/BerandaStyle'
 import MainUsulanStyle from '../Style/MainUsulan.style'
 import AddUsulanStyle from '../Style/AddUsulan.style'
+import * as DocumentPicker from 'expo-document-picker'
+import { checkEmailFormat, checkLengthDesk, checkLengthNoPhone, checkTipeKlustur } from '../../utils/utility'
+import { updateStatus, updateUsulan } from '../../utils/update'
+import useGlobalStore from '../store/useGlobalStore'
+import { auth } from '../../utils/firebase'
+import { Buffer } from 'buffer';
+import { deleteUsulan } from '../../utils/delete'
 
 function DetailProyek({ route }) {
+  const userState = useGlobalStore(state => state.userState)
+  
   const [dataUsulan, setDataUsulan] = useState({
     Alamat: '',
     Deskripsi: '',
@@ -30,14 +41,95 @@ function DetailProyek({ route }) {
     Tanggal_Pengajuan: '',
     Tipe_Klustur: '',
     id: '',
+    dateIdNumber: '',
+    collection: '',
+    File: ''
   })
+
+  const [enabled, setEnable] = useState(false);
   const navigation = useNavigation()
 
   useEffect(() => {
-    const { params } = route
-    setDataUsulan(params.dataUsulan)
+    const { params: { dataUsulan } } = route
+    if(dataUsulan.Status == 1){
+      setEnable(true)
+    }
+    setDataUsulan(dataUsulan)
   }, [])
 
+
+  const onPressSave = async (e) => {
+    checkEmailFormat(dataUsulan.Email);
+    checkLengthNoPhone(dataUsulan.No_Handphone);
+    checkLengthDesk(dataUsulan.Deskripsi);
+    checkTipeKlustur(dataUsulan.Tipe_Klustur);
+    try {
+      const {id, dateIdNumber, collection, Tanggal_Pengajuan, ...usulan} = dataUsulan;
+
+      // console.log(usulan);
+      let res = await updateUsulan(userState.uid, id, usulan, collection);
+      if(res){
+        Alert.alert('Berhasil', 'Data Berhasil Di Update');
+        navigation.goBack();
+      }else{
+        Alert.alert('Gagal', 'Gagal Update');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
+  const handlePickDocument = async () => {
+    let document = await DocumentPicker.getDocumentAsync()
+    if(document.type =='cancel'){
+      return;
+    }
+
+    // console.log(userState);
+    const name = document.name.toString();
+    
+    const findExt = name.split('.');
+    
+    const documentName = `${userState.uid}_${Date.now()}.${findExt[findExt.length - 1]}`;
+
+    let buff = new Buffer.from(document.uri).toString('base64');
+
+    const max = 1048576 * 5;
+
+    if(!(document.size < max)){
+      Alert.alert('File Kebesaran', 'File Telah Melalui Batas Maksimal');
+      return;
+    }
+    const ext = findExt[findExt.length - 1];
+
+    switch (ext) {
+      case 'rar':
+      case 'zip':
+        if(document.uri.length !== 0)
+          setDataUsulan({...dataUsulan, File: buff, NameFile: documentName})
+        break;
+      default:
+        Alert.alert('Error Tipe File', 'Tipe File yang Dipilih salah');
+        break;
+    }
+    
+    return;
+  }
+  const handleStatusBelumCheckout = async () => {
+    const {id, dateIdNumber, collection, Tanggal_Pengajuan, ...usulan} = dataUsulan;
+    let res = await updateStatus(userState.uid, id, usulan, collection);
+    if(res){
+      navigation.goBack();
+    }
+  }
+
+  const handleHapus = async () => {
+    const {id, dateIdNumber, collection, Tanggal_Pengajuan, ...usulan} = dataUsulan;
+    let res = await deleteUsulan(userState.uid, id, usulan, collection)
+    if(res){
+      navigation.goBack();
+    }
+  }
   return (
     <SafeAreaView style={Style.container}>
       <ScrollView>
@@ -54,10 +146,12 @@ function DetailProyek({ route }) {
           <View style={{ display: 'flex', flexDirection: 'row' }}>
             <TouchableOpacity
               style={[BerandaStyle.btnCheckOut, { marginRight: 10 }]}
+              onPress={handleStatusBelumCheckout}
+              disabled={enabled}
             >
               <Text style={{ color: putih, marginRight: 5 }}>Check Out</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={BerandaStyle.btnHapus}>
+            <TouchableOpacity style={BerandaStyle.btnHapus} onPress={handleHapus}>
               <Text style={{ color: putih, marginRight: 5 }}>Hapus</Text>
             </TouchableOpacity>
           </View>
@@ -76,6 +170,7 @@ function DetailProyek({ route }) {
               },
             ]}
             value={dataUsulan.Nama_Pengusul}
+            onChangeText={text => setDataUsulan({...dataUsulan, Nama_Pengusul: text})}
           />
           <TextInput
             placeholder="No. Handphone"
@@ -87,6 +182,7 @@ function DetailProyek({ route }) {
                 marginBottom: 20,
               },
             ]}
+            onChangeText={text => setDataUsulan({...dataUsulan, No_Handphone: text})}
           />
           <TextInput
             placeholder="E-mail"
@@ -98,6 +194,7 @@ function DetailProyek({ route }) {
                 marginBottom: 20,
               },
             ]}
+            onChangeText={text => setDataUsulan({...dataUsulan, Email: text})}
           />
           <TextInput
             placeholder="Alamat"
@@ -109,6 +206,7 @@ function DetailProyek({ route }) {
                 marginBottom: 20,
               },
             ]}
+            onChangeText={text => setDataUsulan({...dataUsulan, Alamat: text})}
           />
 
           <Text
@@ -126,6 +224,7 @@ function DetailProyek({ route }) {
                 marginBottom: 20,
               },
             ]}
+            onChangeText={text => setDataUsulan({...dataUsulan, Judul_Proyek: text})}
           />
 
           <View
@@ -167,6 +266,7 @@ function DetailProyek({ route }) {
                 marginBottom: 20,
               },
             ]}
+            onChangeText={text => setDataUsulan({...dataUsulan, Deskripsi: text})}
           />
           <TextInput
             placeholder="Luaran"
@@ -178,6 +278,7 @@ function DetailProyek({ route }) {
                 marginBottom: 20,
               },
             ]}
+            onChangeText={text => setDataUsulan({...dataUsulan, Luaran: text})}
           />
           <Text style={Style.textNormalWhite}>
             Pernah komunikasi Dengan Pihak Polibatam ?
@@ -192,11 +293,15 @@ function DetailProyek({ route }) {
               },
             ]}
           />
-          <TextInput
+          <Text style={{color: 'white', marginBottom: 3}}>Pilih File</Text>
+          <TouchableOpacity
             placeholder="Choose File"
             placeholderTextColor="#666872"
             style={[Style.inputNoWidth]}
-          />
+            onPress={handlePickDocument}
+          >
+            <Text style={{paddingTop: 11, color: 'white'}}>{dataUsulan.NameFile.substr(0, 30)}...</Text>
+          </TouchableOpacity>
           <Text style={[Style.textNormalWhite, { marginBottom: 20 }]}>
             NB: Maks 5 MB, FIleType: ZIP|RAR
           </Text>
@@ -208,6 +313,7 @@ function DetailProyek({ route }) {
           MainUsulanStyle.AdditionalButton,
           AddUsulanStyle.AdditionalButton,
         ]}
+        onPressOut={onPressSave}
       >
         <Text style={Style.textNormalWhite}>Save</Text>
       </TouchableOpacity>

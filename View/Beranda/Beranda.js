@@ -41,6 +41,14 @@ class Beranda extends React.Component {
     })
     const user = auth.currentUser
     getUsulan(user.uid).then((res) => {
+      if(res == null || res.length == 0){
+        this.setState({
+          dataUsulan: [],
+          refreshing: false,
+        })
+        return
+      }
+
       this.setState({
         dataUsulan: res,
         refreshing: false,

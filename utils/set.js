@@ -1,6 +1,5 @@
 import firebase, { users } from './firebase';
 import 'firebase/storage';
-import { timeConversion } from './utility';
 
 function MON(monthid){
     let month = '';
@@ -74,7 +73,9 @@ export const setDataWithId = async (uid, data, collection) => {
             ...other,
             NameFile,
             Status: 0,
-            Tanggal_Pengajuan: createdAt 
+            Tanggal_Pengajuan: createdAt,
+            dateIdNumber: Date.now(),
+            collection: collection
         })
     } catch (error) {
         throw 'Gagal Meyimpan Data'
@@ -83,7 +84,7 @@ export const setDataWithId = async (uid, data, collection) => {
         return true;
     }
 
-    const Storage = firebase.storage().ref(`pdf/${collection}/${NameFile}}`);
+    const Storage = firebase.storage().ref(`pdf/${collection}/${NameFile}`);
     const res = Storage.put(File);
     if(res.length == 0){
         throw 'Penyimpanan File Gagal';

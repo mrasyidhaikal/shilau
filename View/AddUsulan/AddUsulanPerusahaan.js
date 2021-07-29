@@ -64,7 +64,7 @@ class AddUsulanPerusahaan extends React.Component {
         checkTipeKlustur(this.state.data.Tipe_Klustur);
         checkUrlWebsite(this.state.data.Website_Perusahaan)
         // console.log(this.state.data);
-        let final = setDataWithId(userState.uid, this.state.data, 'perusahaan');  
+        let final = setDataWithId(userState.uid, this.state.data, 'perusahaan');
         if(final){
           Alert.alert('Berhasil!!', "Data Berhasil Disimpan!");
           this.props.navigation.goBack();
@@ -95,26 +95,31 @@ class AddUsulanPerusahaan extends React.Component {
 
     let buff = new Buffer.from(document.uri).toString('base64');
 
-    let getLengthFile = document.size / 1048576;
+    
     const max = 1048576 * 5;
-
-    if(!(getLengthFile < max)){
+    
+    if(!(document.size < max)){
       Alert.alert('File Kebesaran', 'File Telah Melalui Batas Maksimal');
       return;
     }
     const ext = findExt[findExt.length - 1]; 
-    if( ext !== 'rar' || ext !== 'zip' ){
-      Alert.alert('Format File', 'Format File Salah');
-      return;
+    switch (ext) {
+      case 'rar':
+      case 'zip':
+        if(document.uri.length !== 0)
+          this.setState({
+            data:{
+              ...this.state.data,
+              File: buff,
+              NameFile: documentName
+            }
+          })
+        break;
+      default:
+        Alert.alert('Error Tipe File', 'Tipe File yang Dipilih salah');
+        break;
     }
-    if(document.uri.length !== 0)
-      this.setState({
-        data:{
-          ...this.state.data,
-          File: buff,
-          NameFile: documentName
-        }
-      })
+    return;
   }
 
   render() {
@@ -253,12 +258,12 @@ class AddUsulanPerusahaan extends React.Component {
                 </Picker>
               </View>
               <TextInput
-                placeholder="Jelaskan Secara Singkat Deskripsi Proyek yang dilkakukan"
+                placeholder="Jelaskan Secara Singkat Deskripsi Proyek yang dilakukan"
                 multiline
-                numberOfLines={4}
+                // numberOfLines={4}
                 placeholderTextColor="#666872"
                 onChangeText={text => this.setState({data:{...this.state.data, Deskripsi: text}})}
-                maxLength={40}
+                // maxLength={40}
                 style={[
                   Styles.input,
                   AddUsulan.AdditionalInputStyle,
@@ -279,7 +284,7 @@ class AddUsulanPerusahaan extends React.Component {
               />
 
               <TextInput
-                placeholder="Luaran"
+                placeholder="   Luaran"
                 placeholderTextColor="#666872"
                 onChangeText={text => this.setState({data:{...this.state.data, Luaran: text}})}
                 style={[Styles.input, AddUsulan.AdditionalInputStyle]}
@@ -292,7 +297,9 @@ class AddUsulanPerusahaan extends React.Component {
                 ]}
               >
                 <TouchableOpacity onPress={this.handlePickDocument}>
-                  <Text style={[Styles.textNormalWhite]}>Pilih File</Text>
+                  <Text style={[Styles.textNormalWhite, {paddingTop: 11, color: 'white'}]}>{
+                    this.state.data.NameFile != '' ? this.state.data.NameFile.substr(0, 25) : "Pilih File"}...
+                  </Text>
                 </TouchableOpacity>
               </View>
               <Text

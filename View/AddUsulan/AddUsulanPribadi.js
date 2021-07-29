@@ -17,6 +17,7 @@ import * as DocumentPicker from 'expo-document-picker'
 import { setDataWithId } from '../../utils/set'
 import useGlobalStore from '../store/useGlobalStore'
 import { Buffer } from 'buffer'
+
 import { checkEmailFormat, checkLengthDesk, checkLengthNoPhone, checkTipeKlustur } from '../../utils/utility'
 // const { StorageAccessFramework } = DocumentPicker;
 
@@ -71,6 +72,7 @@ export default class AddUsulanPribadi extends React.Component {
     if (this.state.index === 0) return '#666872'
     return '#fff'
   }
+  
   handlePickDocument = async () => {
     let document = await DocumentPicker.getDocumentAsync()
     if(document.type =='cancel'){
@@ -85,26 +87,30 @@ export default class AddUsulanPribadi extends React.Component {
 
     let buff = new Buffer.from(document.uri).toString('base64');
 
-    let getLengthFile = document.size / 1048576;
     const max = 1048576 * 5;
 
-    if(!(getLengthFile < max)){
+    if(!(document.size < max)){
       Alert.alert('File Kebesaran', 'File Telah Melalui Batas Maksimal');
       return;
     }
-    const ext = findExt[findExt.length - 1]; 
-    if( ext !== 'rar' || ext !== 'zip' ){
-      Alert.alert('Format File', 'Format File Salah');
-      return;
+    const ext = findExt[findExt.length - 1];
+
+    switch (ext) {
+      case 'rar':
+      case 'zip':
+        if(document.uri.length !== 0)
+          this.setState({
+            data:{
+              ...this.state.data,
+              File: buff,
+              NameFile: documentName
+            }
+          })
+        break;
+      default:
+        Alert.alert('Error Tipe File', 'Tipe File yang Dipilih salah');
+        break;
     }
-    if(document.uri.length !== 0)
-      this.setState({
-        data:{
-          ...this.state.data,
-          File: buff,
-          NameFile: documentName
-        }
-      })
     
     return;
   }
@@ -250,7 +256,9 @@ export default class AddUsulanPribadi extends React.Component {
                   onPress={this.handlePickDocument}
                   
                 >
-                  <Text style={[Styles.textNormalWhite]}>Pilih File</Text>
+                  <Text style={[Styles.textNormalWhite, {paddingTop: 11, color: 'white'}]}>{
+                    this.state.data.NameFile != '' ? this.state.data.NameFile.substr(0, 25) : "Pilih File"}...
+                  </Text>
                 </TouchableOpacity>
               </View>
 
