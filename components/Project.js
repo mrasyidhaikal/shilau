@@ -7,10 +7,18 @@ import ProjectStatus from './ProjectStatus'
 function Project({ data }) {
   const navigation = useNavigation()
   const handleChangePage = () => {
-    navigation.navigate('DetailProyek', {
-      screen: 'DetailProyek',
-      params: { dataUsulan: data },
-    })
+    if (data.collection === 'perusahaan') {
+      return navigation.navigate('DetailProyek', {
+        screen: 'DetailProyekPerusahaan',
+        params: { dataUsulan: data },
+      })
+    }
+    if (data.collection === 'pribadi') {
+      return navigation.navigate('DetailProyek', {
+        screen: 'DetailProyek',
+        params: { dataUsulan: data },
+      })
+    }
   }
   return (
     <TouchableOpacity onPress={handleChangePage} style={styles.project_item}>

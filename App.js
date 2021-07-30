@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import { LogBox } from 'react-native';
+import { LogBox } from 'react-native'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -16,6 +16,7 @@ import LoginScreen from './View/Login&Register/LoginScreen'
 import DataUser from './View/Profile/DataUser'
 import { biruGelap, dark, grey, biruMuda } from './View/Style/Style'
 import useAuthStore from './View/store/useAuthStore'
+import DetailProyekPerusahaan from './View/DetailProyek/DetailProyekPerusahaan'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
@@ -25,7 +26,7 @@ const ProyekStack = createStackNavigator()
 const RegisterStack = createStackNavigator()
 const Profile = createStackNavigator()
 
-LogBox.ignoreLogs(['Setting a timer']); // Membuang Error SetTimeout
+LogBox.ignoreLogs(['Setting a timer']) // Membuang Error SetTimeout
 const AppTabs = () => {
   return (
     <Tab.Navigator
@@ -79,6 +80,10 @@ const HandleProyekStack = () => {
   return (
     <ProyekStack.Navigator screenOptions={{ headerShown: false }}>
       <ProyekStack.Screen name="DetailProyek" component={DetailProyek} />
+      <ProyekStack.Screen
+        name="DetailProyekPerusahaan"
+        component={DetailProyekPerusahaan}
+      />
     </ProyekStack.Navigator>
   )
 }

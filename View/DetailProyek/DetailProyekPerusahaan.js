@@ -30,24 +30,29 @@ import { auth } from '../../utils/firebase'
 import { Buffer } from 'buffer'
 import { deleteUsulan } from '../../utils/delete'
 
-function DetailProyek({ route }) {
+function DetailProyekPerusahaan({ route }) {
   const userState = useGlobalStore((state) => state.userState)
 
   const [dataUsulan, setDataUsulan] = useState({
     Alamat: '',
+    Alamat_Perusahaan: '',
     Deskripsi: '',
     Email: '',
+    Isi_Industri_atau_Sektor: '',
     Judul_Proyek: '',
+    Jumlah_Karyawan: '',
     Luaran: '',
     Nama_Pengusul: '',
+    Nama_Perusahaan: '',
     NameFile: '',
     No_Handphone: '',
     Status: 0,
     Tanggal_Pengajuan: '',
     Tipe_Klustur: '',
-    id: '',
-    dateIdNumber: '',
+    Website_Perusahaan: '',
     collection: '',
+    dateIdNumber: 0,
+    id: '',
     File: '',
   })
 
@@ -69,6 +74,7 @@ function DetailProyek({ route }) {
     checkLengthNoPhone(dataUsulan.No_Handphone)
     checkLengthDesk(dataUsulan.Deskripsi)
     checkTipeKlustur(dataUsulan.Tipe_Klustur)
+
     try {
       const { id, dateIdNumber, collection, Tanggal_Pengajuan, ...usulan } =
         dataUsulan
@@ -233,7 +239,83 @@ function DetailProyek({ route }) {
           <Text
             style={[Style.textNormalWhite, { marginTop: 30, marginBottom: 20 }]}
           >
-            B. Informasi Proyek
+            B. Informasi Perusahaan
+          </Text>
+          <TextInput
+            placeholder="Nama Perusahaan"
+            value={dataUsulan.Nama_Perusahaan}
+            placeholderTextColor="#666872"
+            onChangeText={(text) =>
+              setDataUsulan({ ...dataUsulan, Nama_Perusahaan: text })
+            }
+            style={[
+              Style.inputNoWidth,
+              {
+                marginBottom: 20,
+              },
+            ]}
+          />
+          <TextInput
+            placeholder="Alamat Perusahaan"
+            value={dataUsulan.Alamat_Perusahaan}
+            placeholderTextColor="#666872"
+            onChangeText={(text) =>
+              setDataUsulan({ ...dataUsulan, Alamat_Perusahaan: text })
+            }
+            style={[
+              Style.inputNoWidth,
+              {
+                marginBottom: 20,
+              },
+            ]}
+          />
+          <TextInput
+            placeholder="Isi Industri atau Sektor"
+            value={dataUsulan.Isi_Industri_atau_Sektor}
+            placeholderTextColor="#666872"
+            onChangeText={(text) =>
+              setDataUsulan({ ...dataUsulan, Isi_Industri_atau_Sektor: text })
+            }
+            style={[
+              Style.inputNoWidth,
+              {
+                marginBottom: 20,
+              },
+            ]}
+          />
+          <TextInput
+            placeholder="Jumlah Karyawan"
+            placeholderTextColor="#666872"
+            value={dataUsulan.Jumlah_Karyawan}
+            onChangeText={(text) =>
+              setDataUsulan({ ...dataUsulan, Jumlah_Karyawan: text })
+            }
+            style={[
+              Style.inputNoWidth,
+              {
+                marginBottom: 20,
+              },
+            ]}
+          />
+          <TextInput
+            placeholder="Website Perusahaan"
+            placeholderTextColor="#666872"
+            value={dataUsulan.Website_Perusahaan}
+            onChangeText={(text) =>
+              setDataUsulan({ ...dataUsulan, Website_Perusahaan: text })
+            }
+            style={[
+              Style.inputNoWidth,
+              {
+                marginBottom: 20,
+              },
+            ]}
+          />
+
+          <Text
+            style={[Style.textNormalWhite, { marginTop: 30, marginBottom: 20 }]}
+          >
+            C. Informasi Proyek
           </Text>
           <TextInput
             placeholder="Judul Proyek"
@@ -351,4 +433,4 @@ function DetailProyek({ route }) {
   )
 }
 
-export default DetailProyek
+export default DetailProyekPerusahaan
