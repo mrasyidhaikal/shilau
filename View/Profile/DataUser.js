@@ -34,7 +34,9 @@ class DataUser extends React.Component {
   }
 
   handleLogout = () => {
-    const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
+    const unsubscribeGlobalStore =
+      useGlobalStore.getState().unsubscribeGlobalStore
+    // const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
     auth
       .signOut()
       .then(() => {
@@ -43,7 +45,8 @@ class DataUser extends React.Component {
           ToastAndroid.SHORT,
           ToastAndroid.BOTTOM
         )
-        setIsLoggedIn(false)
+        // setIsLoggedIn(false)
+        unsubscribeGlobalStore()
       })
       .catch((err) => {
         Alert.alert('Opps!, Terjadi Kesalahan', err.message)

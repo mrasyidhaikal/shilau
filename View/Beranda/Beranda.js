@@ -22,10 +22,10 @@ class Beranda extends React.Component {
   unsubsFocus = ''
 
   componentDidMount() {
-    const setUser = useGlobalStore.getState().setUser
+    // const setUser = useGlobalStore.getState().setUser
     const { navigation } = this.props
-    const user = auth.currentUser
-    setUser(user.displayName, user.email, user.uid)
+    // const user = auth.currentUser
+    // setUser(user.displayName, user.email, user.uid)
     this.unsubsFocus = navigation.addListener('focus', () => {
       this.fetchGetUsulan()
     })
@@ -57,7 +57,6 @@ class Beranda extends React.Component {
   }
 
   render() {
-    console.log(this.state.dataUsulan)
     return (
       <View style={Style.container}>
         <SafeAreaView>

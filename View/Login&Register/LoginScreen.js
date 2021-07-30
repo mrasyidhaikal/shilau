@@ -19,6 +19,7 @@ import useAuthStore from '../store/useAuthStore'
 
 import Style, { windowHeight, WIDTH, grey } from './../Style/Style'
 import { auth } from '../../utils/firebase'
+import useGlobalStore from '../store/useGlobalStore'
 
 class LoginScreen extends React.Component {
   constructor() {
@@ -28,8 +29,8 @@ class LoginScreen extends React.Component {
       refreshing: false,
       showPass: true,
       press: false,
-      email: 'pbl.shilau@polibatam.com',
-      password: 'Admin123',
+      email: '',
+      password: '',
     }
   }
 
@@ -42,16 +43,19 @@ class LoginScreen extends React.Component {
   }
 
   handleLogin = () => {
-    const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
+    // const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn
+    const setUser = useGlobalStore.getState().setUser
     auth
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
+      .then((data) => {
+        setUser(data.user.displayName, data.user.email, data.user.uid)
         ToastAndroid.showWithGravity(
           'Berhasil Login !',
           ToastAndroid.SHORT,
           ToastAndroid.BOTTOM
         )
-        setIsLoggedIn(true)
+        this.addUidToStorage(data.user.uid)
+        // setIsLoggedIn(true)
       })
       .catch((err) => {
         switch (err.code) {
@@ -76,6 +80,14 @@ class LoginScreen extends React.Component {
             return Alert.alert('Opps!, Terjadi Kesalahan', err.message)
         }
       })
+  }
+
+  addUidToStorage = async (uid) => {
+    try {
+      await AsyncStorage.setItem('uid', uid)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   render() {

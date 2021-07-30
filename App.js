@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { LogBox } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -17,6 +17,8 @@ import DataUser from './View/Profile/DataUser'
 import { biruGelap, dark, grey, biruMuda } from './View/Style/Style'
 import useAuthStore from './View/store/useAuthStore'
 import DetailProyekPerusahaan from './View/DetailProyek/DetailProyekPerusahaan'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { auth } from './utils/firebase'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()
@@ -107,7 +109,22 @@ const ProfileStack = () => {
 
 export default function App() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn)
   console.log('Berhasil Login: ', isLoggedIn)
+
+  useEffect(() => {
+    const getAuth = () => {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          setIsLoggedIn(true)
+        } else {
+          setIsLoggedIn(false)
+        }
+      })
+    }
+    getAuth()
+  }, [])
+
   return (
     <NavigationContainer>
       <StatusBar style="light" backgroundColor={biruGelap} />

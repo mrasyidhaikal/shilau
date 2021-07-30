@@ -15,7 +15,7 @@ import useGlobalStore from '../store/useGlobalStore'
 function HeaderComponent() {
   const navigation = useNavigation()
   const userState = useGlobalStore((state) => state.userState)
-
+  console.log('test', userState)
   return (
     <>
       <View style={[BerandaStyle.topBar, Style.wrapper]}>
@@ -35,9 +35,10 @@ function HeaderComponent() {
           <View>
             <Text style={Style.textNormalWhite}>Selamat Datang</Text>
             <Text style={[Style.textBold, { fontSize: 18 }]}>
-              {userState.fullName.length < 16
-                ? `${userState.fullName}`
-                : `${userState.fullName.substring(0, 13)}...`}
+              {console.log(userState)}
+              {userState?.fullName.length < 16
+                ? `${userState?.fullName}`
+                : `${userState?.fullName.substring(0, 13)}...`}
             </Text>
           </View>
         </View>

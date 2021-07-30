@@ -154,19 +154,25 @@ function DetailProyek({ route }) {
         <View style={[Style.wrapper, BerandaStyle.titleSection]}>
           <Text style={Style.textBold}>Judul Proyek</Text>
           <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <TouchableOpacity
-              style={[BerandaStyle.btnCheckOut, { marginRight: 10 }]}
-              onPress={handleStatusBelumCheckout}
-              disabled={enabled}
-            >
-              <Text style={{ color: putih, marginRight: 5 }}>Check Out</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={BerandaStyle.btnHapus}
-              onPress={handleHapus}
-            >
-              <Text style={{ color: putih, marginRight: 5 }}>Hapus</Text>
-            </TouchableOpacity>
+            {!enabled && (
+              <>
+                <TouchableOpacity
+                  style={[BerandaStyle.btnCheckOut, { marginRight: 10 }]}
+                  onPress={handleStatusBelumCheckout}
+                  disabled={enabled}
+                >
+                  <Text style={{ color: putih, marginRight: 5 }}>
+                    Check Out
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={BerandaStyle.btnHapus}
+                  onPress={handleHapus}
+                >
+                  <Text style={{ color: putih, marginRight: 5 }}>Hapus</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
         </View>
         <View style={Style.wrapper}>
@@ -176,6 +182,7 @@ function DetailProyek({ route }) {
           <TextInput
             placeholder="Nama Pengusul"
             placeholderTextColor="#666872"
+            editable={!enabled}
             style={[
               Style.inputNoWidth,
               {
@@ -191,6 +198,7 @@ function DetailProyek({ route }) {
             placeholder="No. Handphone"
             placeholderTextColor="#666872"
             value={dataUsulan.No_Handphone}
+            editable={!enabled}
             style={[
               Style.inputNoWidth,
               {
@@ -205,6 +213,7 @@ function DetailProyek({ route }) {
             placeholder="E-mail"
             placeholderTextColor="#666872"
             value={dataUsulan.Email}
+            editable={!enabled}
             style={[
               Style.inputNoWidth,
               {
@@ -219,6 +228,7 @@ function DetailProyek({ route }) {
             placeholder="Alamat"
             placeholderTextColor="#666872"
             value={dataUsulan.Alamat}
+            editable={!enabled}
             style={[
               Style.inputNoWidth,
               {
@@ -239,6 +249,7 @@ function DetailProyek({ route }) {
             placeholder="Judul Proyek"
             placeholderTextColor="#666872"
             value={dataUsulan.Judul_Proyek}
+            editable={!enabled}
             style={[
               Style.inputNoWidth,
               {
@@ -264,6 +275,7 @@ function DetailProyek({ route }) {
                 Style.inputNoWidth,
                 { position: 'absolute', left: 0, width: '100%', color: `#fff` },
               ]}
+              enabled={!enabled}
               selectedValue={dataUsulan.Tipe_Klustur}
               onValueChange={(itemValue, itemIndex) =>
                 setDataUsulan({ ...dataUsulan, Tipe_Klustur: itemValue })
@@ -283,6 +295,7 @@ function DetailProyek({ route }) {
             placeholder="Ide Proyek/Deskripsi Masalah/Spesifikasi"
             placeholderTextColor="#666872"
             value={dataUsulan.Deskripsi}
+            editable={!enabled}
             style={[
               Style.inputNoWidth,
               {
@@ -296,6 +309,7 @@ function DetailProyek({ route }) {
           <TextInput
             placeholder="Luaran"
             placeholderTextColor="#666872"
+            editable={!enabled}
             value={dataUsulan.Luaran}
             style={[
               Style.inputNoWidth,
@@ -313,6 +327,7 @@ function DetailProyek({ route }) {
           <TextInput
             placeholder="....."
             placeholderTextColor="#666872"
+            editable={!enabled}
             style={[
               Style.inputNoWidth,
               {
@@ -336,17 +351,19 @@ function DetailProyek({ route }) {
           </Text>
         </View>
       </ScrollView>
-      <TouchableOpacity
-        style={[
-          Style.buttonBiru,
-          MainUsulanStyle.AdditionalButton,
-          AddUsulanStyle.AdditionalButton,
-        ]}
-        onPressOut={onPressSave}
-        disabled={enabled}
-      >
-        <Text style={Style.textNormalWhite}>Save</Text>
-      </TouchableOpacity>
+      {!enabled && (
+        <TouchableOpacity
+          style={[
+            Style.buttonBiru,
+            MainUsulanStyle.AdditionalButton,
+            AddUsulanStyle.AdditionalButton,
+          ]}
+          onPressOut={onPressSave}
+          disabled={enabled}
+        >
+          <Text style={Style.textNormalWhite}>Save</Text>
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
   )
 }

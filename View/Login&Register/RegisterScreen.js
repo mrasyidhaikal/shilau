@@ -16,9 +16,10 @@ import moment from 'moment'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Style, { windowHeight, WIDTH, grey } from './../Style/Style'
 import MainUsulanStyle from './../Style/MainUsulan.style'
-import { auth } from '../../utils/firebase';
+import { auth } from '../../utils/firebase'
 import { checkEmailFormat } from '../../utils/utility'
-import useAuthStore from '../store/useAuthStore' 
+import useAuthStore from '../store/useAuthStore'
+import useGlobalStore from '../store/useGlobalStore'
 
 class RegisterScreen extends React.Component {
   constructor() {
@@ -28,12 +29,12 @@ class RegisterScreen extends React.Component {
       refreshing: false,
       showPass: true,
       press: false,
-      username: "",
+      username: '',
       email: '',
-      password:"",
+      password: '',
       errorInfo: '',
       showError: false,
-      recheck: "",
+      recheck: '',
     }
   }
 
@@ -46,114 +47,124 @@ class RegisterScreen extends React.Component {
   }
 
   checkPass = (pas) => {
-    password = pas.toString();
+    const password = pas.toString()
     if (password.length < 6) {
       this.setState({
-         errorInfo: 'Minimal Panjang Password 6',
-         showError: true,
+        errorInfo: 'Minimal Panjang Password 6',
+        showError: true,
       })
-      return;
+      return
     }
-    if (!(/(?=[A-Z])/g.test(password))) {
+    if (!/(?=[A-Z])/g.test(password)) {
       this.setState({
         errorInfo: 'Harus Terdiri Dari Satu Huruf Kapital',
         showError: true,
-      });
-      return;
+      })
+      return
     }
-    if (!(/(?=[0-9])/g.test(password))) {
+    if (!/(?=[0-9])/g.test(password)) {
       this.setState({
         errorInfo: 'Harus Terdiri Satu Angka',
-        showError: true
-      })      
+        showError: true,
+      })
       return
     }
 
     this.setState({
-      errorInfo: "",
+      errorInfo: '',
       showError: false,
     })
   }
 
-
   handleRegister = async (event) => {
-    const { username, email, password, errorInfo, showError, recheck } = this.state;
-    if(username.length == 0){
+    const { username, email, password, errorInfo, showError, recheck } =
+      this.state
+    if (username.length == 0) {
       this.setState({
         errorInfo: 'Full Name Tidak Boleh Kosong',
-        showError: true
-      });
+        showError: true,
+      })
       return
     }
 
-    if(email.length == 0){
+    if (email.length == 0) {
       this.setState({
         errorInfo: 'Email Tidak Boleh Kosong',
-        showError: true
-      });
+        showError: true,
+      })
       return
     }
     try {
-      checkEmailFormat(email);
+      checkEmailFormat(email)
     } catch (error) {
-      Alert.alert('Gagal', error);
-      return;
-    }
-   
-    if(recheck !== password){
-      Alert.alert('Password Retype', 'Password Tidak Sama dengan yang di retype');
-      return;
+      Alert.alert('Gagal', error)
+      return
     }
 
-    if(errorInfo.length != 0 && showError ){
-      return;
+    if (recheck !== password) {
+      Alert.alert(
+        'Password Retype',
+        'Password Tidak Sama dengan yang di retype'
+      )
+      return
+    }
+
+    if (errorInfo.length != 0 && showError) {
+      return
     }
 
     this.setState({
-      errorInfo: "",
+      errorInfo: '',
       showError: false,
     })
 
-    auth.createUserWithEmailAndPassword(email, password).then((ss)=> {
-      auth.currentUser.updateProfile({
-        displayName: username
-      }).then(res => {
-        console.log(res);
-      }).catch(err => {
-        console.log(err);
-      })
-      
-      const setIsLoggedIn = useAuthStore.getState().setIsLoggedIn;
-      setIsLoggedIn(true)
+    const setUser = useGlobalStore.getState().setUser
 
-    }, (errorSignUp) => {
-      Alert.alert('Opps!, Terjadi Kesalahan', errorSignUp)
-    })
-    
+    auth.createUserWithEmailAndPassword(email, password).then(
+      (res) => {
+        setUser(username, res.user.email, res.user.uid)
+        res.user
+          .updateProfile({
+            displayName: username,
+          })
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      },
+      (errorSignUp) => {
+        Alert.alert('Opps!, Terjadi Kesalahan', errorSignUp)
+      }
+    )
   }
-  
+
   handlePass = (Password) => {
     // this.checkPass(Password);
-    this.setState({
-      ...this.setState,
-      password: Password
-    }, () => {
-      this.checkPass(this.state.password)
-    })
-    return;
+    this.setState(
+      {
+        ...this.setState,
+        password: Password,
+      },
+      () => {
+        this.checkPass(this.state.password)
+      }
+    )
+    return
   }
 
   handleEmail = (email) => {
     this.setState({
       ...this.setState,
       email: email,
-    });
-    return;
+    })
+    return
   }
   handleUsername = (name) => {
     this.setState({
       ...this.setState,
-      username: name
+      username: name,
     })
     return
   }
@@ -161,8 +172,8 @@ class RegisterScreen extends React.Component {
   handleCheckSamePass = (check) => {
     this.setState({
       ...this.setState,
-      recheck: check
-    });
+      recheck: check,
+    })
   }
 
   render() {
@@ -189,11 +200,12 @@ class RegisterScreen extends React.Component {
             <View
               style={{ marginHorizontal: 25, marginTop: 80, marginBottom: 50 }}
             >
-                {
-                  this.state.showError && <Text style={{color: 'yellow', textAlign: 'center', fontSize: 14}}>{`${this.state.errorInfo}`}</Text>
-                }
+              {this.state.showError && (
+                <Text
+                  style={{ color: 'yellow', textAlign: 'center', fontSize: 14 }}
+                >{`${this.state.errorInfo}`}</Text>
+              )}
               <View style={Style.inputContainer}>
-                
                 <View style={Style.inputContainer}>
                   <Text style={Style.textNormalWhite}>Full Name</Text>
                 </View>
@@ -202,7 +214,7 @@ class RegisterScreen extends React.Component {
                     style={Style.input}
                     placeholder={'Masukkan Full Name Anda'}
                     placeholderTextColor={grey}
-                    onChangeText={user => this.handleUsername(user)}
+                    onChangeText={(user) => this.handleUsername(user)}
                   />
                 </View>
               </View>
@@ -214,7 +226,7 @@ class RegisterScreen extends React.Component {
                   style={Style.input}
                   placeholder={'Masukkan Email Anda'}
                   placeholderTextColor={grey}
-                  onChangeText={email => this.handleEmail(email)}
+                  onChangeText={(email) => this.handleEmail(email)}
                 />
               </View>
               <View style={Style.inputContainer}>
@@ -227,7 +239,7 @@ class RegisterScreen extends React.Component {
                   placeholderTextColor={grey}
                   secureTextEntry={this.state.showPass}
                   maxLength={16}
-                  onChangeText={pass => this.handlePass(pass)}
+                  onChangeText={(pass) => this.handlePass(pass)}
                 />
 
                 <TouchableOpacity
@@ -254,7 +266,7 @@ class RegisterScreen extends React.Component {
                   placeholder={'Masukkan Password'}
                   placeholderTextColor={grey}
                   secureTextEntry={this.state.showPass}
-                  onChangeText={check => this.handleCheckSamePass(check)}
+                  onChangeText={(check) => this.handleCheckSamePass(check)}
                 />
 
                 <TouchableOpacity
@@ -275,7 +287,10 @@ class RegisterScreen extends React.Component {
             </View>
             <View style={Style.ContainerViewBiasa}>
               <View style={Style.inputContainer}>
-                <TouchableOpacity style={Style.buttonBiru} onPress={this.handleRegister}>
+                <TouchableOpacity
+                  style={Style.buttonBiru}
+                  onPress={this.handleRegister}
+                >
                   <Text
                     style={{ fontSize: 16, color: '#fff', alignSelf: 'center' }}
                   >
