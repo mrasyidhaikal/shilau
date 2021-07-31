@@ -19,6 +19,7 @@ import useAuthStore from './View/store/useAuthStore'
 import DetailProyekPerusahaan from './View/DetailProyek/DetailProyekPerusahaan'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { auth } from './utils/firebase'
+import useGlobalStore from './View/store/useGlobalStore'
 
 const Tab = createBottomTabNavigator()
 const AuthStack = createStackNavigator()

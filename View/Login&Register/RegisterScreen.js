@@ -122,8 +122,9 @@ class RegisterScreen extends React.Component {
 
     auth.createUserWithEmailAndPassword(email, password).then(
       (res) => {
+        console.log(username, res.user.email, res.user.uid)
         setUser(username, res.user.email, res.user.uid)
-        res.user
+        return res.user
           .updateProfile({
             displayName: username,
           })
