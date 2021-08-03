@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "shilau",
+    "name": "SHILAU",
     "slug": "shilau",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,14 +8,12 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "usesIcloudStorage": true
@@ -23,8 +21,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#05445E"
       },
+      "package": "com.polibatam.shilau",
+      "versionCode": 1,
       "permissions": []
     },
     "web": {
